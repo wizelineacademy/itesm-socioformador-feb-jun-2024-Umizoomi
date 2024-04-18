@@ -1,4 +1,5 @@
 
+import { Button } from "@/components/ui/button"
 
 const Login: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const Login: React.FC = () => {
           
         </div>
         <div id="LoginRightComponent">
+          <Button variant="outline">Button</Button>
 
         </div>
       </div>
