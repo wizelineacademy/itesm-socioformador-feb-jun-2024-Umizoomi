@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image";
+import LoginForm from "../loginform/page";
 
 const Login: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const Login: React.FC = () => {
           
         </div>
         <div id="LoginRightComponent">
-
+          <LoginForm />
         </div>
       </div>
     </div>
