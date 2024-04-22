@@ -40,7 +40,7 @@ export function  Loginform ()  {
   }
 
   return (
-    <div className="flex items-center flex-col w-auto gap-3 my-10 font-sans">
+    <div className="flex items-center flex-col w-auto gap-3 font-sans">
       <h1 className='text-xl'>
         Login
       </h1>
