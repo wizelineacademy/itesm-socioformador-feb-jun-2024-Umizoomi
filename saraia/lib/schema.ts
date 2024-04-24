@@ -1,6 +1,7 @@
-export {
-    postgresUsersTable as users,
-    postgresAccountsTable as accounts,
-    postgresSessionsTable as sessions,
-    postgresVerificationTokensTable as verificationTokens,
-  } from '@auth/drizzle-adapter'
+import { pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
+import { drizzle } from 'drizzle-orm/node-postgres';
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: text('email').notNull(),
+  password: text('password').notNull(),
+});
