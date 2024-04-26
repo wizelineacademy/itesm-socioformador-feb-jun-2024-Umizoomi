@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image";
-import LoginForm from "../loginform/page";
+import LoginForm from "../registerform/page";
 
 const Login: React.FC = () => {
   return (

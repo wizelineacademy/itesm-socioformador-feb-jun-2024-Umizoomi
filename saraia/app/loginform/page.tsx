@@ -1,11 +1,7 @@
-import { FormEvent } from "react";
-import Form from './form'
+import Form from "./form"
 
-export default async function  Loginform ()  {
-  
-    return(
-      <Form />
+export default function LoginPage(){
+    return (
+        <Form />
     )
-  
-};
-
+}

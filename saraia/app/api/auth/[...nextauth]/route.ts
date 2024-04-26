@@ -1,37 +1,48 @@
-
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from 'bcrypt';
+import { db } from "@/lib/db";
+import { sql } from "drizzle-orm";
+import * as schema from '@/lib/schema';
 
 const handler = NextAuth({
     providers: [
         CredentialsProvider({
-          // The name to display on the sign in form (e.g. "Sign in with...")
-          name: "Credentials",
-          // `credentials` is used to generate a form on the sign in page.
-          // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-          // e.g. domain, username, password, 2FA token, etc.
-          // You can pass any HTML attribute to the <input> tag through the object.
-          credentials: {
-            email: { },
-            password: { }
-          },
-          async authorize(credentials, req) {
-            // Add logic here to look up the user from the credentials supplied
-            const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-      
-            if (user) {
-              // Any object returned will be saved in `user` property of the JWT
-              return user
-            } else {
-              // If you return null then an error will be displayed advising the user to check their details.
-              return null
-      
-              // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-            }
-          }
-        })
-      ]
-})
+            credentials: {
+                email: {}, // Specify type as "text"
+                password: {},
+            },
+            async authorize(credentials, req) : Promise<any> {
+                try {
+                    if (!credentials || !credentials.email || !credentials.password) {
+                        throw new Error("Missing credentials");
+                    }
 
+                    const response = await db.execute(sql`SELECT * FROM users WHERE email=${credentials.email}`);
+                    const user = response.rows[0];
 
-export {handler as GET, handler as POST };
+                    if (!user) {
+                        throw new Error("No user found with this email");
+                    }
+
+                    const password = user.password as string;
+
+                    const passwordCorrect = await compare(credentials.password, password);
+                    if (passwordCorrect) {
+                        return {
+                            id: user.id,
+                            email: user.email,
+                        };
+                    } else {
+                        throw new Error("Incorrect password");
+                    }
+                } catch (error) {
+                    console.error("Authorization error:", error);
+                    return null; // Return null in case of any errors during authorization
+                }
+            },
+        }),
+    ],
+});
+
+export { handler as GET, handler as POST };
