@@ -23,7 +23,7 @@ export default function Form(){
         <h1 className='text-2xl font-sans font-normal	'>
           Login
         </h1>
-        <div className=" bg-sky-600 w-full h-0.5 rounded-sm"> </div>
+        <div className=" bg-slate-900 w-full h-0.5 rounded-sm"> </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Label htmlFor="email">Email</Label>
 
@@ -31,9 +31,9 @@ export default function Form(){
           <Label htmlFor="password">Password</Label>
 
           <Input name="password" type="password" placeholder="Password"></Input>
-          <div className=" bg-sky-600 h-0.5 rounded-sm"> </div>
+          <div className=" bg-slate-900 h-0.5 rounded-sm"> </div>
 
-          <Button type="submit">Login</Button>
+          <Button className="my-5" type="submit">Login</Button>
         </form>
       </div>
     );

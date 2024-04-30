@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      colors: {
+        'custom-dark': '#0F0F1A',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
