@@ -11,11 +11,12 @@ export default function Form(){
         e.preventDefault();
         
         const formData = new FormData(e.currentTarget);
-        signIn('credentials', {
+        const response = signIn('credentials', {
             email: formData.get("email"),
             password: formData.get("password"),
             redirect: false, 
         });
+        console.log({response});
       };
       
     return (

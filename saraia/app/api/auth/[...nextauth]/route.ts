@@ -6,6 +6,10 @@ import { sql } from "drizzle-orm";
 import * as schema from '@/lib/schema';
 
 const handler = NextAuth({
+    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy:"jwt"
+    },
     providers: [
         CredentialsProvider({
             credentials: {
