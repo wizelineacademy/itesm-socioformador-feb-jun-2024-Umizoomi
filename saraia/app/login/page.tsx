@@ -4,8 +4,8 @@ import LoginPage from "../loginform/page";
 
 const Login: React.FC = () => {
   return (
-    <div className="h-screen flex justify-center items-center bg-custom-dark bg-opacity-95 ">
-      <div id="LoginContainer" className='bg-slate-50 w-5/6 h-4/6 rounded-lg flex justify-center max-w-6xl min-w-s'>
+    <div className="h-screen flex justify-center items-center bg-custom-dark bg-opacity-95">
+      <div id="LoginContainer" className='bg-slate-50 w-5/6 h-5/6 rounded-lg flex justify-center max-w-4xl'>
         <div id="Login-Right" className="flex justify-center items-center lg:w-full">
           <LoginPage />
         </div>
