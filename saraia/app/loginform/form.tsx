@@ -1,22 +1,29 @@
 'use client';
 import { FormEvent } from "react";
 import { db } from "@/lib/db";
-import { signIn } from "next-auth/react";
+import { SignInResponse, signIn } from "next-auth/react";
 import  {Input} from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button";
+import  { useRouter } from "next/navigation";
+import { any } from "zod";
 
 export default function Form(){
+    const router = useRouter();
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         const formData = new FormData(e.currentTarget);
-        const response = signIn('credentials', {
+        const response = await signIn('credentials', {
             email: formData.get("email"),
             password: formData.get("password"),
             redirect: false, 
         });
         console.log({response});
+        if (!response?.error) {
+          router.push('/');
+          router.refresh();
+      }
       };
       
     return (
