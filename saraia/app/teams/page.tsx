@@ -63,7 +63,7 @@ async function getData(): Promise<Projecto[]> {
   ]
 }
 
-export default async function DemoPage() {
+export default async function Teams() {
   const data = await getData()
 
   return (
