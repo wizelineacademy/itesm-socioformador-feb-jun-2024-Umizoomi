@@ -6,6 +6,7 @@ import { FaHome, FaAngleDoubleLeft, FaUsers } from "react-icons/fa";
 import { VscFeedback } from "react-icons/vsc";
 import { LuLogOut } from "react-icons/lu";
 import NavigationButton from "../navigationButton";
+import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
   const [toggleCollapse, setToggleCollapse] = useState(false);
@@ -33,7 +34,10 @@ const Sidebar = () => {
   const handleSidebarToggle = () => {
     setToggleCollapse(!toggleCollapse);
   };
+  const handleLogout = () => {
+    signOut();
 
+  }
   return (
     <div
       className={wrapperClasses}
@@ -43,10 +47,10 @@ const Sidebar = () => {
     >
       <div className="flex flex-col">
         <div className="flex items-center justify-between relative">
-          <div className="flex items-center">
-            <Image src="/UmizoomiN.png" width={100} height={100} className="sidebar_logo" alt="Logo" />
+          <div className="flex items-center gap-3">
+            <Image src="/LogoSara.svg" width={30} height={30} className="sidebar_logo" alt="Logo" />
             <span
-              className={classNames("mt-2 text-lg font-medium text-text", {
+              className={classNames("mt-2 text-xl font-bold text-text", {
                 hidden: toggleCollapse
               })}>
               SaraIA
@@ -69,7 +73,7 @@ const Sidebar = () => {
 
         <NavigationButton
         icon={FaHome}
-        route="/"
+        route="/dashboard"
         showPlaceholder={!toggleCollapse}
         placeholderText="Home"
         />
@@ -90,12 +94,10 @@ const Sidebar = () => {
       </div>
 
       <div className="flex items-center justify-between relative">
-        <NavigationButton
-        icon={LuLogOut}
-        route="#"
-        showPlaceholder={!toggleCollapse}
-        placeholderText="Log Out"
-        />
+        <button onClick={handleLogout} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-200">
+          <LuLogOut size={20}/>
+          {!toggleCollapse && <span>{"Logout"}</span>}
+        </button>
       </div>
     </div>
   );
