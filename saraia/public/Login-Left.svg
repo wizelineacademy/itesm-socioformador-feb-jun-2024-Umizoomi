@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 613 793">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: Poppins-SemiBold, Poppins;
+        font-size: 36px;
+        font-weight: 600;
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke-width: 0px;
+      }
+
+      .cls-3, .cls-5 {
+        fill: #0f0f1a;
+      }
+
+      .cls-5 {
+        stroke: #231f20;
+      }
+
+      .cls-5, .cls-6 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-6 {
+        fill: none;
+        opacity: .64;
+        stroke: #e163a5;
+        stroke-width: .5px;
+      }
+
+      .cls-4 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-7 {
+        fill: #fff;
+      }
+
+      .cls-8 {
+        fill: #c473af;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="309.04" y1="294.42" x2="303.68" y2="717.23" gradientUnits="userSpaceOnUse">
+      <stop offset=".03" stop-color="#dc3c96"/>
+      <stop offset="1" stop-color="#250e29"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="347.21" y1="422.5" x2="347.84" y2="499.2" gradientUnits="userSpaceOnUse">
+      <stop offset=".03" stop-color="#ea3c96"/>
+      <stop offset="1" stop-color="#250e29"/>
+    </linearGradient>
+  </defs>
+  <g id="Layer_1" data-name="Layer 1">
+    <rect class="cls-5" x=".5" y=".5" width="612" height="792"/>
+    <text class="cls-1" transform="translate(86.44 164.68)"><tspan class="cls-7"><tspan x="0" y="0">La plataforma definitiva</tspan></tspan><tspan class="cls-7"><tspan x="-22.18" y="43.2">de manejo de equipos con</tspan></tspan><tspan class="cls-8"><tspan x="31.12" y="86.4">Inteligencia Artificial</tspan></tspan></text>
+    <path class="cls-6" d="M118.48,260.91s105.47-69.28,105.47,0,95.39,0,95.39,0c0,0,100.41-66.27,100.41,0s64.77,0,64.77,0"/>
+  </g>
+  <g id="Layer_2" data-name="Layer 2">
+    <path class="cls-2" d="M307.55,417.46c-25.13,18.27-16.98,58.15,13.86,64.73l72.28,15.42c20.24,4.32,34.7,22.19,34.7,42.89h0c0,24.22-19.63,43.85-43.85,43.85h-166.84c-20.19,0-35.62-17.79-33-37.6.11-.85.36-1.67.68-2.46l33.21-81.21h0c6.81-34.2-2.49-69.63-25.21-96.07l-6.85-7.98c-4.27-20.65,11.5-40.01,32.59-40.01h112.32c17.95,0,61.86-13.43,93.06,41.07,9.82,17.15,2.72,64.75-30.53,64.75l-6.67-6.06c-19.13-17.38-47.38-20.22-69.59-6.99l-10.17,5.68Z"/>
+    <path class="cls-3" d="M251.23,492.38l-17.03,21.17c-10.72,13.32-2.18,33.21,14.87,34.61l29.34,2.41c16.73,1.37,28.41-16.24,20.63-31.11l-12.31-23.57c-7.11-13.62-25.87-15.47-35.5-3.49Z"/>
+    <path class="cls-4" d="M337.86,433.79l-10.82,13.45c-4.34,5.39-.88,13.44,6.02,14.01l27.41,2.25c6.77.56,11.5-6.57,8.35-12.59l-7.74-14.82c-4.65-8.91-16.92-10.12-23.22-2.29Z"/>
+  </g>
+</svg>
