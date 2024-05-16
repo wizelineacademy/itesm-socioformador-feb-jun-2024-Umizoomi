@@ -1,0 +1,7 @@
+import < config > from "dotenv";
+
+config();
+
+const GPTKey = process.env.OpenAiKey || '';
+
+export { GPTKey };
