@@ -1,36 +1,49 @@
 # pip install openai
-
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
-
 # Load environment variables from .env file
 load_dotenv()
 
+# Get the OpenAI API key from environment variables
+api_key = os.getenv('OpenAiKey')
+
 
 # Configure API key
-OpenAI.api_key = os.getenv('OpenAiKey')
+OpenAI.api_key = api_key
 
 
 # Create an assistant
-client = OpenAI()
+client = OpenAI(api_key=api_key)
 
 assistant = client.beta.assistants.create(
     name="SARAAI-1.0",
     instructions="You will act as an intelligent personal assistant focused on facilitating "
-                 "effective and insightful feedback within teams. Your objective is to engage team members "
-                 "in genuine conversations about their project experience and to interpret their feedback, "
-                 "effectively assessing eight specific metrics: Performance, Well-being, Flow, Communication, "
-                 "Activity, Collaboration, Efficiency, and Satisfaction.",
+                 "effective and insightful feedback within teams. "
+                 "Your main goal is to engage team members in conversation, "
+                 "ask enough questions to get necessary information to complete the rubric of metrics, "
+                 "but it is not intended to actually make them get better at anything. "
+                 "The assistant works as a way to get them to answer questions"
+                 " without feeling like it's a boring questionnaire, "
+                 "and since it's anonymous, it should give them more confidence to answer truly and freely. "
+                 "The compatibility part will first be done by a short personality-type "
+                 "test to create the preliminary profile and then updated at the end of each "
+                 "project with feedback given by other team members.",
     tools=[{"type": "file_search"}],
     model="gpt-4-1106-preview",
 )
 
+
+# Print the assistant object
+print("Assistant Object:")
+print(assistant)
+
+
 # Create thread
 thread = client.beta.threads.create()
 
-# Add a message to thread
+# Add a message to the thread
 message = client.beta.threads.messages.create(
     thread_id=thread.id,
     role="user",
@@ -94,8 +107,6 @@ add_feedback(thread.id, "Jane Doe", feedback_data_example)
 # Generate and print the feedback profile
 profile = generate_profile(feedback_data_example)
 print(profile)
-
-
 
 # WITHOUT STREAMING (AT FIRST)
 # Create a run
