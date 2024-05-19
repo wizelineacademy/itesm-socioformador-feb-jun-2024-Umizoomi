@@ -5,7 +5,4 @@ import os
 load_dotenv()
 
 # Get the OpenAI API key from environment variables
-GPTKey = os.getenv('OpenAiKey', '')
-
-# Print the API key to verify (optional)
-print(f"OpenAI API Key: {GPTKey}")
+api_key = os.getenv('OpenAiKey', '')

@@ -1,18 +1,52 @@
 # pip install openai
+import psycopg2
 from openai import OpenAI
-from dotenv import load_dotenv
+from config import api_key
 import os
 
-# Load environment variables from .env file
-load_dotenv()
+# Connect to PostgreSQL
+conn = psycopg2.connect(
+    host=os.getenv('DB_HOST'),
+    database=os.getenv('DB_NAME'),
+    user=os.getenv('DB_USER'),
+    password=os.getenv('DB_PASSWORD'),
+    port=os.getenv('DB_PORT')
+)
 
-# Get the OpenAI API key from environment variables
-api_key = os.getenv('OpenAiKey')
+# Create a cursor object
+cur = conn.cursor()
 
 
-# Configure API key
-OpenAI.api_key = api_key
+# Function to test database connection
+def test_db_connection():
+    try:
+        # Create a test table
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS test_table (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(50)
+            )
+        """)
+        conn.commit()
+        print("Table created successfully.")
 
+        # Insert data into the test table
+        cur.execute("INSERT INTO test_table (name) VALUES (%s) RETURNING id", ('Test Name',))
+        conn.commit()
+        print("Data inserted successfully.")
+
+        # Retrieve data from the test table
+        cur.execute("SELECT * FROM test_table")
+        rows = cur.fetchall()
+        for row in rows:
+            print(f"Retrieved row: {row}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+# Test the database connection
+test_db_connection()
 
 # Create an assistant
 client = OpenAI(api_key=api_key)
@@ -31,25 +65,29 @@ assistant = client.beta.assistants.create(
                  "test to create the preliminary profile and then updated at the end of each "
                  "project with feedback given by other team members.",
     tools=[{"type": "file_search"}],
-    model="gpt-4-1106-preview",
+    model="gpt-4o",
 )
-
 
 # Print the assistant object
 print("Assistant Object:")
 print(assistant)
 
-
 # Create thread
 thread = client.beta.threads.create()
 
 # Add a message to the thread
-message = client.beta.threads.messages.create(
+message_thread = client.beta.threads.messages.create(
     thread_id=thread.id,
     role="user",
-    content="I need to solve the equation `3x + 11 = 14`. Can you help me?"
-)
+    content="Hey! I am Luis, a frontend engineer on project GENV, my experience in this project "
+            "was honestly pretty good, there were many challenges but ultimately "
+            "i enjoyed it."
 
+)
+print("message thread: ")
+print(message_thread)
+
+'''
 # Function to add feedback data to the thread
 def add_feedback(thread_id, team_member_name, feedback_data):
     feedback_message = (
@@ -107,13 +145,13 @@ add_feedback(thread.id, "Jane Doe", feedback_data_example)
 # Generate and print the feedback profile
 profile = generate_profile(feedback_data_example)
 print(profile)
+'''
 
 # WITHOUT STREAMING (AT FIRST)
 # Create a run
 run = client.beta.threads.runs.create_and_poll(
     thread_id=thread.id,
-    assistant_id=assistant.id,
-    instructions="Please address the user as Jane Doe. The user has a premium account."
+    assistant_id=assistant.id
 )
 
 # List messages added to the thread by the assistant
@@ -121,6 +159,12 @@ if run.status == 'completed':
     messages = client.beta.threads.messages.list(
         thread_id=thread.id
     )
+    print("this is the message")
     print(messages)
 else:
+    print("this is the run status")
     print(run.status)
+
+# Close the cursor and connection
+cur.close()
+conn.close()
