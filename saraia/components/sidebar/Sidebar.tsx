@@ -13,9 +13,9 @@ const Sidebar = () => {
   const [isCollapsible, setIsCollapsible] = useState(false);
 
   const wrapperClasses = classNames(
-    "h-screen px-3 pt-5 pb-4 bg-light flex justify-between flex-col",
+    "h-screen pt-5 pb-4 bg-light flex justify-between flex-col",
     {
-      ["w-60"]: !toggleCollapse,
+      ["w-40"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
     }
   );
