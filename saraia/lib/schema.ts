@@ -15,6 +15,7 @@ export const jobtitles = pgTable("jobtitles", {
 
 export const userteamposition = pgTable("userteamposition", {
 	idUstepo: serial("id_ustepo").primaryKey().notNull(),
+	idUser: integer("id_user").references(() => users.idUser),
 	idTeam: integer("id_team").references(() => team.idTeam),
 	idJobtitle: integer("id_jobtitle").references(() => jobtitles.idJobtitle),
 });
