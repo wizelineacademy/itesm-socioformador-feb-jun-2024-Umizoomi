@@ -11,6 +11,7 @@
               body: JSON.stringify({
                 email: formData.get('email'),
                 password: formData.get('password'),
+                username: formData.get('username'),
               })
             });
             console.log({response})
@@ -22,8 +23,11 @@
             </h1>
             <div className=" bg-sky-600 w-1/4 h-0.5 rounded-sm"> </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-2 mx-auto max-w-md">
+
               <input name="email" className="border border-black text-black" type="email"></input>
               <input name="password" className="border border-black text-black" type="password"></input>
+              <input name="username" className="border border-black text-black"></input>
+
               <button type="submit">Register</button>
             </form>
             <div className=" bg-sky-600 w-1/4 h-0.5 rounded-sm"> </div>
