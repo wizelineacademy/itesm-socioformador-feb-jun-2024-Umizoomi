@@ -13,6 +13,24 @@ const handler = NextAuth({
     pages: {
         signIn: '/login',
     },
+    callbacks:{
+        session: async ({ session, token }) => {
+            if (session?.user) {
+              session.user.id = token.sub;
+              session.user.email = token.email || '';
+              session.user.name = token.name || '';
+
+            }
+            return session;
+          },
+          jwt: async ({ user, token }) => {
+            if (user) {
+              token.uid = user.id;
+            }
+            return token;
+          },
+    },
+
     providers: [
         CredentialsProvider({
             credentials: {
@@ -27,7 +45,6 @@ const handler = NextAuth({
 
                     const response = await db.execute(sql`SELECT * FROM users WHERE email=${credentials.email}`);
                     const user = response.rows[0];
-
                     if (!user) {
                         throw new Error("No user found with this email");
                     }
@@ -37,8 +54,9 @@ const handler = NextAuth({
                     const passwordCorrect = await compare(credentials.password, password);
                     if (passwordCorrect) {
                         return {
-                            id: user.id,
+                            id: user.id_user,
                             email: user.email,
+                            name: user.username,
                         };
                     } else {
                         throw new Error("Incorrect password");
