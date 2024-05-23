@@ -1,2 +1,3 @@
 # Exclude .env file
 saraia/IA/.env
+saraia/IA/assistant_test.py
