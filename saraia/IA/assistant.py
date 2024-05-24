@@ -195,6 +195,10 @@ print(assistant)
 
 # If user = new
 # Create a new thread
+'''
+
+# Create thread
+thread = client.beta.threads.create()
 
 # Add a message to the thread
 message_thread = client.beta.threads.messages.create(
@@ -206,7 +210,7 @@ message_thread = client.beta.threads.messages.create(
 
 )
 print("message thread: ")
-print(message_thread)
+print(message_thread.id)
 
 '''
 # Function to interpret feedback and generate a profile
@@ -223,7 +227,7 @@ def generate_profile(feedback_data):
         f"- Satisfaction: {feedback_data['Satisfaction']}\n\n"
         f"Strengths:\n"
         f"- Excellent communication skills ({feedback_data['Communication']})\n"
-        f"- Strong performance and collaboration ({feedback_data['Performance']})\n\n"]
+        f"- Strong performance and collaboration ({feedback_data['Performance']})\n\n"
     )
     return profile
 
@@ -255,7 +259,7 @@ print(profile)
 # Create a run
 run = client.beta.threads.runs.create_and_poll(
     thread_id=thread.id,
-    assistant_id="asst_pHVMDuQJ6LyYcDiuuQUtxini"
+    assistant_id='asst_pHVMDuQJ6LyYcDiuuQUtxini'
 )
 
 # List messages added to the thread by the assistant
@@ -264,7 +268,8 @@ if run.status == 'completed':
         thread_id=thread.id
     )
     print("this is the message")
-    print(messages)
+    for message in reversed(messages.data):
+        print(message.role + ':' + message.content[0].text.value)
 else:
     print("this is the run status")
     print(run.status)
@@ -275,3 +280,5 @@ else:
 email="adrcavazosg@gmail.com"
 user_id = 3  # This should be the user's email
 team_id = 1  # This should be the team ID associated with the user
+
+'''
