@@ -16,7 +16,10 @@ conn = psycopg2.connect(
 # Create a cursor object
 cur = conn.cursor()
 
+# Create an assistant
+client = OpenAI(api_key=api_key)
 
+'''
 # Function to test database connection
 def test_db_connection():
     try:
@@ -48,8 +51,8 @@ def test_db_connection():
 # Test the database connection
 test_db_connection()
 
-# Create an assistant
-client = OpenAI(api_key=api_key)
+
+
 
 assistant = client.beta.assistants.create(
     name="SARAAI-1.0",
@@ -72,6 +75,8 @@ assistant = client.beta.assistants.create(
 print("Assistant Object:")
 print(assistant)
 
+'''
+
 # Create thread
 thread = client.beta.threads.create()
 
@@ -85,7 +90,7 @@ message_thread = client.beta.threads.messages.create(
 
 )
 print("message thread: ")
-print(message_thread)
+print(message_thread.id)
 
 '''
 # Function to add feedback data to the thread
@@ -151,7 +156,7 @@ print(profile)
 # Create a run
 run = client.beta.threads.runs.create_and_poll(
     thread_id=thread.id,
-    assistant_id=assistant.id
+    assistant_id='asst_pHVMDuQJ6LyYcDiuuQUtxini'
 )
 
 # List messages added to the thread by the assistant
@@ -160,7 +165,8 @@ if run.status == 'completed':
         thread_id=thread.id
     )
     print("this is the message")
-    print(messages)
+    for message in reversed(messages.data):
+        print(message.role + ':' + message.content[0].text.value)
 else:
     print("this is the run status")
     print(run.status)
