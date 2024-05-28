@@ -117,7 +117,8 @@ def thread_process(user_id, thread_id):
         print("this is the run status")
         print(run.status)
 
-    return run
+    print(response)
+    return response
 
 
 # Function to handle user feedback
@@ -143,7 +144,7 @@ team_id = 1  # This should be the team ID associated with the user
 
 
 get_user_id("adrcavazosg@gmail.com")
-
+handle_feedback(email)
 
 cursor.close()
 connection.close()
