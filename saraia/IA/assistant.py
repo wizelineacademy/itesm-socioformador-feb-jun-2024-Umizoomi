@@ -11,13 +11,19 @@ client = OpenAI(api_key=api_key)
 
 # Connect to PostgresSQL
 def connect_to_db():
-    return psycopg2.connect(
-        host=os.getenv('DB_HOST'),
-        database=os.getenv('DB_NAME'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD'),
-        port=os.getenv('DB_PORT')
-    )
+    try:
+        connection = psycopg2.connect(
+            host=os.getenv('POSTGRES_HOST'),
+            database=os.getenv('POSTGRES_DATABASE'),
+            user=os.getenv('POSTGRES_USER'),
+            password=os.getenv('POSTGRES_PASSWORD'),
+            port=os.getenv('POSTGRES_PORT')
+        )
+        print("Connected to the database.")
+        return connection
+    except Exception as e:
+        print(f"Error connecting to the database: {e}")
+
 
 
 # Function to get the user ID from the users table (corroborating from email)
@@ -91,7 +97,7 @@ def check_feedback_table(user_id, team_id):
     return thread_id
 
 def thread_process(user_id, thread_id):
-    user_id = user[0]
+    user_id = user_id
     message_thread = client.beta.threads.messages.create(
         thread_id=thread_id,
         role="user",
@@ -108,7 +114,7 @@ def thread_process(user_id, thread_id):
         )
     if run.status == 'completed':
         messages = client.beta.threads.messages.list(
-        thread_id=thread.id
+        thread_id=thread_id
     )
     print("this is the message")
     for message in reversed(messages.data):
@@ -139,4 +145,7 @@ def handle_feedback(email):
 email="adrcavazosg@gmail.com"
 user_id = 3  # This should be the user's email
 team_id = 1  # This should be the team ID associated with the user
-print(email)
+# print(email)
+
+
+get_user_id("adrcavazosg@gmail.com")
