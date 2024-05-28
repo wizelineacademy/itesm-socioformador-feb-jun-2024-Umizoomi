@@ -90,6 +90,37 @@ def check_feedback_table(user_id, team_id):
 
     return thread_id
 
+def thread_process():
+    user_id = user[0]
+    message_thread = client.beta.threads.messages.create(
+        thread_id=thread.id,
+        role="user",
+        content="Hey! I am Luis, a frontend engineer on project GENV, my experience in this project "
+        "was honestly pretty good, there were many challenges but ultimately "
+        "i enjoyed it."
+        )
+    print("message thread: ")
+    print(message_thread.id)
+
+    run = client.beta.threads.runs.create_and_poll(
+        thread_id = check_feedback_table(user_id, team_id),
+        assistant_id = os.getenv('ASSISTANT_ID')
+        )
+    if run.status == 'completed':
+        messages = client.beta.threads.messages.list(
+        thread_id=thread.id
+    )
+    print("this is the message")
+    for message in reversed(messages.data):
+        response = message.role + ':' + message.content[0].text.value
+        print(response)
+
+    else:
+        print("this is the run status")
+        print(run.status)
+
+    return response
+
 
 # Function to handle user feedback
 def handle_feedback(email):
@@ -100,9 +131,9 @@ def handle_feedback(email):
         thread_id = check_feedback_table(user_id, team_id)
         # Continue the conversation using the thread ID
         print(f"Thread ID to use: {thread_id}")
+        thread_process()
     else:
         print("User does not exist in the users table.")
-
 
 # Example usage
 email="adrcavazosg@gmail.com"
