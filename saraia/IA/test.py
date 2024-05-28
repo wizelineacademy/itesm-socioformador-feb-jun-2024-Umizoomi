@@ -25,18 +25,18 @@ def connect_to_db():
         print(f"Error connecting to the database: {e}")
 
 
-# Open connection and cursor object
 connection = connect_to_db()
 cursor = connection.cursor()
 
-
 # Function to get the user ID from the users table (corroborating from email)
 def get_user_id(email):
+
 
     # Query to get the user ID from the users table
     query = "SELECT id_user FROM users WHERE email = %s;"
     cursor.execute(query, (email,))
     result = cursor.fetchone()
+    print(result)
 
     return result
 
@@ -54,6 +54,7 @@ def create_new_thread():
 # Function to add a new feedback entry for a user
 def add_new_feedback(user_id, team_id, thread_id):
 
+
     # Insert the new feedback entry into the feedback table
     insert_query = """
     INSERT INTO feedback (id_user, id_team, id_feedback, purpose, productivity, autonomy, support, mastery, creativity, challenge, performance)
@@ -62,6 +63,7 @@ def add_new_feedback(user_id, team_id, thread_id):
     cursor.execute(insert_query, (user_id, team_id, thread_id))
 
     connection.commit()
+
 
 
 # Function to corroborate user ID with feedback table
@@ -130,6 +132,8 @@ def handle_feedback(email):
         thread_process(user_id, thread_id)
     else:
         print("User does not exist in the users table.")
+
+
 
 # Example usage
 email="adrcavazosg@gmail.com"
