@@ -1,82 +1,72 @@
+"use client"
+
 import {Projecto , columns } from "./columns"
 import { DataTable } from "./data-table"
 import Sidebar from "@/components/sidebar/Sidebar"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import CreateTeamModal from "@/components/Modals/CreateTeamModal"
+import { useSession } from "next-auth/react";
 
-async function getData(): Promise<Projecto[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      nombre: "Umizoomi",
-      area: "Software",
-      equipo: "Kraken Alejandro",
-    }, 
-    {
-        nombre: "Development Team Alpha",
-        area: "Software Development",
-        equipo: "Alpha Coders",
-    },  {
-        nombre: "Marketing Mavericks",
-        area: "Marketing",
-        equipo: "Marketing Wizards",
-      },
-      {
-        nombre: "Finance Force",
-        area: "Finance",
-        equipo: "Money Masters",
-      },
-      {
-        nombre: "Customer Success Champions",
-        area: "Customer Success",
-        equipo: "Success Squad",
-      },
-      {
-        nombre: "Operations Optimizers",
-        area: "Operations",
-        equipo: "Ops Geniuses",
-      },
-      {
-        nombre: "Design Dream Team",
-        area: "Design",
-        equipo: "Creative Creators",
-      },
-      {
-        nombre: "Sales Superstars",
-        area: "Sales",
-        equipo: "Sales Titans",
-      },
-      {
-        nombre: "Human Resources Heroes",
-        area: "HR",
-        equipo: "HR Guardians",
-      },
-      {
-        nombre: "Product Management Pros",
-        area: "Product Management",
-        equipo: "Product Visionaries",
-      },
-      {
-        nombre: "Quality Assurance Squad",
-        area: "Quality Assurance",
-        equipo: "QA Heroes",
-      }
-    // ...
-  ]
+type TeamName = {
+  teamName: string;
+};
+
+type UserTeamsProps = {
+  initialTeamNames: TeamName[];
+};
+
+const API_URL = '/api/teams';
+
+async function getData(userId : number): Promise<Projecto[]> {
+  try {
+    console.log(userId);
+    const response = await fetch(`${API_URL}?userId=${userId}`);
+    console.log(response);
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const tabledata = await response.json();
+    
+    return tabledata;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return [];
+  }
 }
 
-export default async function Teams() {
-  const data = await getData()
+export default function Teams() {
+  const { data: session, status } = useSession();
+  const userId = session?.user.id as number;
 
-  return (
-    <div  id="container" className="flex ">
-        <Sidebar />
-        <div className=" flex-col flex gap-10 my-5 mx-10 flex-1">
-            
-            <h1 className="text-3xl font-sans font-bold">Teams</h1>
-            <DataTable columns={columns} data={data} />
+  const [tabledata, setTableData] = useState<Projecto[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedData = await getData(userId);
+      setTableData(fetchedData);
+    };
+    fetchData();
+  }, [session?.user.id]);
+  if (status === "authenticated") {
+    return (
+      <div  id="container" className="flex ">
+          <Sidebar />
+          <div className=" flex-col flex gap-10 my-5 mx-10 flex-1">
+              <div id="Header" className="flex justify-between">
+                <h1 className="text-3xl font-sans font-bold">Teams</h1>
+                <CreateTeamModal />
+              </div>
+              <DataTable columns={columns} data={tabledata} />
+  
+          </div>
+      </div>
+  
+  
+    )
+  }
+  return <a href="/api/auth/signin">Sign in</a>
 
-        </div>
-    </div>
-
-
-  )
+ 
 }

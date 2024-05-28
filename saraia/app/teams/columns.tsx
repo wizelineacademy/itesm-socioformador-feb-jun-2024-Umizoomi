@@ -9,8 +9,7 @@ import { Button } from "@/components/ui/button"
 // You can use a Zod schema here if you want.
 export type Projecto = {
   nombre: string
-  area: string
-  equipo: string
+
 }
 
 export const columns: ColumnDef<Projecto>[] = [
@@ -18,14 +17,7 @@ export const columns: ColumnDef<Projecto>[] = [
         accessorKey: "nombre",
         header: "Nombre",
       },
-      {
-        accessorKey: "area",
-        header: "Area",
-      },
-      {
-        accessorKey: "equipo",
-        header: "Equipo",
-      },
+
     
     {
         id:"actions",
