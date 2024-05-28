@@ -1,4 +1,4 @@
-import {OAuthProviderType} from "next-auth/providers"
+import { OAuthProviderType } from "next-auth/providers/oauth-types";
 import {signIn} from "next-auth/react"
 
 export default function SignInBtnCustom({

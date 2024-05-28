@@ -7,18 +7,20 @@ import { SendHorizontalIcon, Zap } from 'lucide-react'
 
 export default function Chat() {
     interface Message {
+        id: number;
         role: 'system' | 'user' | 'assistant';
         content: string;
+
     }
     
     const messages: Message[] = [
-        { role: 'system', content: 'You are a helpful assistant.' },
-        { role: 'user', content: 'Who won the world series in 2020?' },
-        { role: 'assistant', content: 'The Los Angeles Dodgers won the World Series in 2020.' },
-        { role: 'user', content: 'Where was it played?' },
-        { role: 'assistant', content: 'The Los Angeles Dodgers won the World Series in 2020.' },
-        { role: 'user', content: 'Where was it played?' },
-        { role: 'user', content: 'Where was it played?' },
+        {id: 1, role: 'system', content: 'You are a helpful assistant.' },
+        {id: 1,  role: 'user', content: 'Who won the world series in 2020?' },
+        {id: 1,  role: 'assistant', content: 'The Los Angeles Dodgers won the World Series in 2020.' },
+        {id: 1,  role: 'user', content: 'Where was it played?' },
+        {id: 1,  role: 'assistant', content: 'The Los Angeles Dodgers won the World Series in 2020.' },
+        {id: 1,  role: 'user', content: 'Where was it played?' },
+        {id: 1,  role: 'user', content: 'Where was it played?' },
 
     ];
     

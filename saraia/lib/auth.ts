@@ -4,15 +4,19 @@ import Github from "next-auth/providers/github";
 import {db} from "./db"
 import type { Adapter } from 'next-auth/adapters';
 
+
 export const {
     handlers: {GET,POST},
-    auth,
+    auth, 
 
 } = NextAuth ({
+    
     adapter: DrizzleAdapter(db),
+    providers:[],
     callbacks: {
-        async session({session, user, token}) {
+        async session({session}) {
             return session;
         },
     },
+    
 });
