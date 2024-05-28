@@ -84,14 +84,14 @@ def add_new_feedback(user_id, team_id, thread_id):
 
 
 # Function to corroborate user ID with feedback table
-def check_feedback_table(user_id, team_id, thread_id):
+def check_feedback_table(user_id, team_id):
     print("check_feedback_function")
     try:
         connection = connect_to_db()
         cursor = connection.cursor()
 
         # Query to check if the user exists in the feedback table
-        query = "SELECT id_feedback FROM feedback WHERE id_user = %s;"
+        query = "SELECT thread_id FROM feedback WHERE id_user = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
         print(f"check_feedback_table result: {result}")
@@ -169,8 +169,7 @@ user_id = 3  # This should be the user's email
 team_id = 2  # This should be the team ID associated with the user
 
 
-check_feedback_table(6, 2)
-
+handle_feedback("kraken@gmail.com")
 
 cursor.close()
 connection.close()
