@@ -90,10 +90,10 @@ def check_feedback_table(user_id, team_id):
 
     return thread_id
 
-def thread_process():
+def thread_process(user_id, thread_id):
     user_id = user[0]
     message_thread = client.beta.threads.messages.create(
-        thread_id=thread.id,
+        thread_id=thread_id,
         role="user",
         content="Hey! I am Luis, a frontend engineer on project GENV, my experience in this project "
         "was honestly pretty good, there were many challenges but ultimately "
@@ -119,7 +119,7 @@ def thread_process():
         print("this is the run status")
         print(run.status)
 
-    return response
+    return run
 
 
 # Function to handle user feedback
@@ -131,7 +131,7 @@ def handle_feedback(email):
         thread_id = check_feedback_table(user_id, team_id)
         # Continue the conversation using the thread ID
         print(f"Thread ID to use: {thread_id}")
-        thread_process()
+        thread_process(user_id, thread_id)
     else:
         print("User does not exist in the users table.")
 
@@ -139,3 +139,4 @@ def handle_feedback(email):
 email="adrcavazosg@gmail.com"
 user_id = 3  # This should be the user's email
 team_id = 1  # This should be the team ID associated with the user
+print(email)
