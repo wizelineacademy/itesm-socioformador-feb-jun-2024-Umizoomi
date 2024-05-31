@@ -186,7 +186,7 @@ class Sara:
 
 
 # Example usage
-email = "oscar@gmail.com"
+email = "oscar@gmail.com" #cambiese segun necesidad de prueba, este ya cuenta con thread
 user_id = 3  # This should be the user's email
 team_id = 2  # This should be the team ID associated with the user
 
