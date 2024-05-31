@@ -17,8 +17,6 @@ https://docs.google.com/document/d/16fmtjT7r0s6SaTVLlZoNb3ncwJHR50qOMIJzWIUKKJY/
 
 ## Lecciones aprendidas:
 
-## Encuestas a Stakeholders:
-
 ## Carta de agradecimiento y entrega final a Stakeholders:
 
 ## Presentaciones de avance por Sprint:
