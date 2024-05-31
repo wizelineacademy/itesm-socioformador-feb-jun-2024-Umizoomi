@@ -9,7 +9,6 @@ export default async function Home() {
     id_user: number | any;
     username: string | any;
 };
-  const teamMembers = ['Miembro 1', 'Miembro 2', 'Miembro 3', 'Miembro 4', 'Miembro 5', 'Miembro 6'];
   //const [selectedMembers, setSelectedMembers] = useState<SelectedMember[]>(
   //  []
   //);;
