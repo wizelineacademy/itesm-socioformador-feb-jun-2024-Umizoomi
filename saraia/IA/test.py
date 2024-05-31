@@ -182,7 +182,7 @@ class Sara:
     def run(self):
         while True:
             self.handle_feedback()
-            time.sleep(1)
+            #time.sleep(1)
 
 
 # Example usage
