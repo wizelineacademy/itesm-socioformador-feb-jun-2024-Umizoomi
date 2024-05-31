@@ -11,7 +11,7 @@ export const {
 
 } = NextAuth ({
     
-    adapter: DrizzleAdapter(db),
+    adapter: DrizzleAdapter(db) as Adapter,
     providers:[],
     callbacks: {
         async session({session}) {

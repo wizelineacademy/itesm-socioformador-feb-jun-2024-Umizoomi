@@ -1,5 +1,7 @@
 import SignInBtnAuto from "@/components/signin-btn-auto"
 
+export const dynamic = 'force-dynamic'
+
 export default function Page(){
     return (
         <div>
