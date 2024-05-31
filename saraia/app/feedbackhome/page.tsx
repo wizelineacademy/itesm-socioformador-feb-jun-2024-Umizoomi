@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 import Sidebar from "@/components/sidebar/Sidebar"
 import { useState } from 'react';
 
@@ -32,10 +32,9 @@ export default function Home() {
         </div>
     </div>
   );
-}
+} */
 
-/*"use client";
-
+"use client";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { useState } from "react";
 import { GetServerSideProps } from "next";
@@ -81,4 +80,4 @@ const Home = ({ teamMembers }: Props) => {
   );
 };
 
-export default Home;*/
+export default Home;
