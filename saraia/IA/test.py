@@ -135,7 +135,7 @@ def thread_process(user_id, thread_id):
             print("Conversation:")
             for message in reversed(messages.data):
                 response = message.role + ':' + message.content[0].text.value
-                print(response)
+            print(response)
         else:
             print("Run status: ", run.status)
 
@@ -186,7 +186,7 @@ class Sara:
 
 
 # Example usage
-email = "oscar@gmail.com" #cambiese segun necesidad de prueba, este ya cuenta con thread
+email = "cherry@gmail.com" #cambiese segun necesidad de prueba, este ya cuenta con thread
 user_id = 3  # This should be the user's email
 team_id = 2  # This should be the team ID associated with the user
 
