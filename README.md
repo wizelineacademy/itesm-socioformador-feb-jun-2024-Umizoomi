@@ -2,7 +2,8 @@
 
 ## Documento de Diseño
 
-## Documento de pruebas/Bitacora  
+## Documento de pruebas/Bitacora 
+https://docs.google.com/spreadsheets/d/1WrnAVYg8cLDrjqryOuNLqXtPjyDmIbSpsER1ifvQdMg/edit?usp=sharing
 
 ## Solución implantada
 
