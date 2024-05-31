@@ -13,6 +13,7 @@ https://docs.google.com/spreadsheets/d/1WrnAVYg8cLDrjqryOuNLqXtPjyDmIbSpsER1ifvQ
 https://docs.google.com/document/d/1evYueqYATdZVYQJAF1zUVGQDwJbhn84mjiZ8x1MWb8k/edit?usp=sharing
 
 ## Documento de requerimientos:
+https://docs.google.com/document/d/16fmtjT7r0s6SaTVLlZoNb3ncwJHR50qOMIJzWIUKKJY/edit?usp=sharing
 
 ## Lecciones aprendidas:
 
