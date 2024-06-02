@@ -12,8 +12,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getSession } from 'next-auth/react';
 
 export default function CreateTeamModal() {
+
   const [teamName, setTeamName] = useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,7 +32,9 @@ export default function CreateTeamModal() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name: teamName })
+        body: JSON.stringify({
+          name: teamName,
+      }),
       });
 
       if (response.ok) {

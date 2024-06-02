@@ -19,7 +19,6 @@ export default function DashboardPage ()  {
                         <h1 className="text-4xl w-1/6 font-bold text-blue-600 my-10 items-end">
                             {`Welcome Back, ${session.user.name}`}
                         </h1>
-                        <p>{`Your session ID is: ${session.user.id}`}</p> {/* Display the session ID */}
                         <div id="Flex-Container" className="flex justify-center gap-40">
                             <div id="Graph" className="flex flex-col gap-10">
                                 <h2 className="text-2xl font-bold">My Graph</h2>

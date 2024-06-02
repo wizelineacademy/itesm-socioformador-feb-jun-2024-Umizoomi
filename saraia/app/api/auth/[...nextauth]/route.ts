@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { sql } from "drizzle-orm";
 import * as schema from '@/lib/schema';
 
-const options: NextAuthOptions = {
+const nextAuthOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt"
@@ -69,6 +69,8 @@ const options: NextAuthOptions = {
     ],
 };
 
-const handler = NextAuth(options);
+const handler = NextAuth(nextAuthOptions);
 
 export { handler as GET, handler as POST};
+
+export { nextAuthOptions };

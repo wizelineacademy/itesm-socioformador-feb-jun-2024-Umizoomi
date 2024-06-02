@@ -1,19 +1,17 @@
+
+'use server'
+ 
 import { NextResponse, NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { team, userteamposition } from "@/lib/schema";
 import { getToken } from "next-auth/jwt";
 import { eq, sql } from "drizzle-orm";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(request: NextRequest) {
-    const session = await getSession()
-
     try {
-        
-
-        if (!session) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
+        const session = await getServerSession(nextAuthOptions);
 
         const { name } = await request.json();
 
@@ -22,7 +20,7 @@ export async function POST(request: NextRequest) {
         }
         console.error("Error adding team:", name);
 
-        await db.execute(sql`CALL CreateTeam('${name}', ${session.user.id});`);
+        await db.execute(sql`CALL CreateTeam(${name}, ${session?.user.id});`);
         
 
         return NextResponse.json({ message: "Team added successfully" }, { status: 200 });
