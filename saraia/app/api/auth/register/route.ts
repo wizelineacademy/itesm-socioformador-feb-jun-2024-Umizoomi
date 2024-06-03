@@ -6,13 +6,14 @@ import * as schema from '@/lib/schema';
 
 export  async function POST(request: Request){
     try {
-        const {email,password } = await request.json();
+        const {email,password,username } = await request.json();
         console.log({email,password});
 
         const hashedPassword = await hash(password, 10);
         await db.insert(schema.users).values({
             email:email,
             password:hashedPassword,
+            username:username,
         })
     } catch (e) {
         console.log({e});

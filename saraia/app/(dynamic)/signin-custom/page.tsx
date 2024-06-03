@@ -2,6 +2,8 @@ import SignOutBtnCustom from "@/components/signout-btn-custom";
 import SignInBtnCustom from "@/components/signin-btn-custom";
 import {auth} from "@/lib/auth"
 
+export const dynamic = 'force-dynamic'
+
 export default async function Page(){ 
     const session = await auth();
 
