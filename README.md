@@ -34,8 +34,6 @@ Sprint 5: https://docs.google.com/document/d/18PX-X-Q2EFb_aWVrYNZc28fM2lnz4uoDDM
 
 Sprint 6: https://docs.google.com/document/d/1fYUAljdTpHXtDRhw0cz4yLLlYdGxpxb3ctjMh4hGEBc/edit?usp=sharing
 
-## Valor ganado:
-
 # Funcionalidad y presentación:
 
 ## Video de la funcionalidad de la aplicación
