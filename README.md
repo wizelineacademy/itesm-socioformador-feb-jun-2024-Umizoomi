@@ -36,7 +36,7 @@ Sprint 6: https://docs.google.com/document/d/1fYUAljdTpHXtDRhw0cz4yLLlYdGxpxb3ct
 
 ## Valor ganado:
 
-## Funcionalidad y presentación
+# Funcionalidad y presentación:
 
 ## Video de la funcionalidad de la aplicación
 
