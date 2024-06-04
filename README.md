@@ -19,6 +19,7 @@ https://docs.google.com/document/d/16fmtjT7r0s6SaTVLlZoNb3ncwJHR50qOMIJzWIUKKJY/
 https://docs.google.com/spreadsheets/d/1kHas2vVPhU55vf4TkRnLlMtgflRY6AdcK0YvVGY7zeQ/edit?usp=sharing
 
 ## Carta de agradecimiento y entrega final a Stakeholders:
+https://docs.google.com/document/d/1sj8-2pBF0JBDxOk67Dx-Y9PL08uODI9o02QDNeYVB0M/edit?usp=sharing
 
 ## Presentaciones de avance por Sprint:
 
