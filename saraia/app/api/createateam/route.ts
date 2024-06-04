@@ -7,7 +7,7 @@ import { team, userteamposition } from "@/lib/schema";
 import { getToken } from "next-auth/jwt";
 import { eq, sql } from "drizzle-orm";
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../auth/[...nextauth]/route";
+import { nextAuthOptions } from "@/auth";
 
 export async function POST(request: NextRequest) {
     try {

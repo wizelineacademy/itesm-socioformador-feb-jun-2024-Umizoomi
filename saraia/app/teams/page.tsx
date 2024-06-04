@@ -5,7 +5,6 @@ import { DataTable } from "./data-table"
 import Sidebar from "@/components/sidebar/Sidebar"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import CreateTeamModal from "@/components/Modals/CreateTeamModal"
 import { useSession } from "next-auth/react";
