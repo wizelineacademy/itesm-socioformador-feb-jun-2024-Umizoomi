@@ -22,6 +22,12 @@ https://docs.google.com/spreadsheets/d/1kHas2vVPhU55vf4TkRnLlMtgflRY6AdcK0YvVGY7
 https://docs.google.com/document/d/1sj8-2pBF0JBDxOk67Dx-Y9PL08uODI9o02QDNeYVB0M/edit?usp=sharing
 
 ## Presentaciones de avance por Sprint:
+Sprint 1: https://docs.google.com/document/d/1yjnVoB1tPKt40uVN46W7z_Pc0pjLQEzEknVGickNJhQ/edit?usp=sharing
+Sprint 2: https://docs.google.com/document/d/1PvPBoFjjBWF23m_fmbpmzVKaQxlWhrrWkiOCXVxHI3Q/edit?usp=sharing
+Sprint 3: https://docs.google.com/document/d/144IWzcMiQ34PLKjucc1-YOXiDPDNt4akH_IBriefM6A/edit?usp=sharing
+Sprint 4: https://docs.google.com/document/d/1QRSEP-mdNpJrkuihK1kMgT4UrnUAD63kLTNujZ2hn5w/edit?usp=sharing
+Sprint 5: https://docs.google.com/document/d/18PX-X-Q2EFb_aWVrYNZc28fM2lnz4uoDDMHZ1hexfhs/edit?usp=sharing
+Sprint 6: https://docs.google.com/document/d/1fYUAljdTpHXtDRhw0cz4yLLlYdGxpxb3ctjMh4hGEBc/edit?usp=sharing
 
 ## Valor ganado:
 
