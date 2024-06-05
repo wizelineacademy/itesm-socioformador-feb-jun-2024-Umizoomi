@@ -10,6 +10,10 @@ import time
 client = OpenAI(api_key=api_key)
 
 
+# Define a dictionary to store profiles
+profiles = {}
+
+
 # Connect to PostgreSQL
 def connect_to_db():
     try:
@@ -62,9 +66,6 @@ def create_new_thread():
 # Function to add a new feedback entry for a user
 def add_new_feedback(user_id, team_id, thread_id):
     try:
-        connection = connect_to_db()
-        cursor = connection.cursor()
-
         # Insert the new feedback entry into the feedback table
         insert_query = """
         INSERT INTO feedback (id_user, id_team, Performance, Well-being, Flow, Communication, Proactivity, Efficiency, Satisfaction, thread_id)
@@ -84,25 +85,23 @@ def add_new_feedback(user_id, team_id, thread_id):
 # Function to corroborate user ID with feedback table
 def check_feedback_table(user_id, team_id):
     try:
-        connection = connect_to_db()
-        cursor = connection.cursor()
 
         # Query to check if the user exists in the feedback table
         query = "SELECT thread_id FROM feedback WHERE id_user = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
-        #print(f"check_feedback_table result: {result}")
+        # print(f"check_feedback_table result: {result}")
 
         if result:
             # User already has feedback
             thread_id = result[0]
-            #print(f"User already has feedback. Thread ID is: {thread_id}")
+            # print(f"User already has feedback. Thread ID is: {thread_id}")
             return thread_id
         else:
             # User does not have feedback, create a new thread
             thread_id = create_new_thread()
             add_new_feedback(user_id, team_id, thread_id)
-            #print(f"User is new to feedback. Created new thread ID: {thread_id}")
+            # print(f"User is new to feedback. Created new thread ID: {thread_id}")
 
         cursor.close()
         connection.close()
@@ -119,8 +118,7 @@ def thread_process(user_id, thread_id):
         message_thread = client.beta.threads.messages.create(
             thread_id=thread_id,
             role="user",
-            content = message
-            #content="1. Juan insulted the team in various occations, he once told me I didn't knew whta I was talking about- while I was talking about my tasks. And constanly showed late to meetings. 2. He only worked when asked, really didn't showed any interest, and sometimes did not met his deadlines. 3. None. 4. The other team members were also conflicted with him."
+            content=message
         )
         #print("Message thread created with ID: ", message_thread.id)
 
@@ -159,6 +157,72 @@ def handle_feedback(email):
     except Exception as e:
         print(f"Error in handle_feedback: {e}")
 
+# Function to update profile in the database
+def update_profile_in_db(user_id, profile):
+    try:
+
+        update_query = """
+        UPDATE feedback
+        SET purpose = %s, productivity = %s, autonomy = %s, support = %s, mastery = %s,
+            creativity = %s, challenge = %s, performance = %s
+        WHERE id_user = %s;
+        """
+        cursor.execute(update_query, (
+            sum(profile['Purpose']) / len(profile['Purpose']),
+            sum(profile['Productivity']) / len(profile['Productivity']),
+            sum(profile['Autonomy']) / len(profile['Autonomy']),
+            sum(profile['Support']) / len(profile['Support']),
+            sum(profile['Mastery']) / len(profile['Mastery']),
+            sum(profile['Creativity']) / len(profile['Creativity']),
+            sum(profile['Challenge']) / len(profile['Challenge']),
+            sum(profile['Performance']) / len(profile['Performance']),
+            user_id
+        ))
+
+        connection.commit()
+        print("Profile updated in database.")
+    except Exception as e:
+        print(f"Error updating profile in database: {e}")
+
+# Function to create or get a profile
+def get_or_create_profile(user_id):
+    if user_id not in profiles:
+        profiles[user_id] = {
+            "Purpose": [],
+            "Productivity": [],
+            "Autonomy": [],
+            "Support": [],
+            "Mastery": [],
+            "Creativity": [],
+            "Challenge": [],
+            "Performance": []
+        }
+    return profiles[user_id]
+
+# Function to update profile
+def update_profile(profile, feedback_data):
+    for key in profile:
+        if key in feedback_data:
+            profile[key].append(feedback_data[key])
+
+# Example feedback data structure
+feedback_data_example = {
+    "Purpose": 8,
+    "Productivity": 7,
+    "Autonomy": 6,
+    "Support": 9,
+    "Mastery": 7,
+    "Creativity": 8,
+    "Challenge": 6,
+    "Performance": 7
+}
+
+# Adding feedback to profile
+def add_feedback_to_profile(user_id, feedback_data):
+    profile = get_or_create_profile(user_id)
+    update_profile(profile, feedback_data)
+    update_profile_in_db(user_id, profile)  # Update the profile in the database
+
 class Sara:
     def __init__(self, team_id, email, user_id):
         self.team_id = team_id
@@ -174,6 +238,7 @@ class Sara:
                 print(f"Thread ID to use: {thread_id}")
                 print("type message")
                 thread_process(user_id, thread_id)
+                add_feedback_to_profile(user_id, feedback_data_example)  # Example data
             else:
                 print("User does not exist in the users table.")
         except Exception as e:
@@ -183,7 +248,6 @@ class Sara:
         while True:
             self.handle_feedback()
             #time.sleep(1)
-
 
 # Example usage
 email = "Select email from users where id_user = 3" #cambiese segun necesidad de prueba, este ya cuenta con thread
@@ -195,4 +259,3 @@ chatbot.run()
 
 cursor.close()
 connection.close()
-
