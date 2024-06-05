@@ -68,7 +68,7 @@ def add_new_feedback(user_id, team_id, thread_id):
     try:
         # Insert the new feedback entry into the feedback table
         insert_query = """
-        INSERT INTO feedback (id_user, id_team, Performance, Well-being, Flow, Communication, Proactivity, Efficiency, Satisfaction, thread_id)
+        INSERT INTO feedback (id_user, id_team, Performance, Well_being, Flow, Communication, Proactivity, Efficiency, Satisfaction, thread_id)
         VALUES (%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, %s);
         """
         print(f"Executing insert query: {insert_query} with values {user_id}, {team_id}, {thread_id}")
@@ -149,13 +149,13 @@ def update_profile_in_db(user_id, profile):
 
         update_query = """
         UPDATE feedback
-        SET Performance = %s, Well-being = %s, Flow = %s, Communication = %s, Proactivity = %s,
+        SET Performance = %s, Well_being = %s, Flow = %s, Communication = %s, Proactivity = %s,
             Collaboration = %s, Efficiency = %s, Satisfaction = %s
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
             profile['Performance'],
-            profile['Well-being'],
+            profile['Well_being'],
             profile['Flow'],
             profile['Communication'],
            profile['Proactivity'],
@@ -176,7 +176,7 @@ def get_or_create_profile(user_id):
     if user_id not in profiles:
         profiles[user_id] = {
             "Performance": [],
-            "Well-being": [],
+            "Well_being": [],
             "Flow": [],
             "Communication": [],
             "Proactivity": [],
@@ -195,7 +195,7 @@ def update_profile(profile, feedback_data):
 # Example feedback data structure
 feedback_data_example = {
     "Performance": 8,
-    "Well-being": 7,
+    "Well_being": 7,
     "Flow": 6,
     "Communication": 9,
     "Proactivity": 7,
