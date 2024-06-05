@@ -35,19 +35,21 @@ connection = connect_to_db()
 cursor = connection.cursor()
 
 
-# Function to get the user ID from the users table (corroborating from email)
-def get_user_id(email):
+# Function to get the email from the user_id
+def get_email_user_id(user_id):
     try:
         # Query to get the user ID from the users table
-        query = "SELECT id_user FROM users WHERE email = %s;"
-        cursor.execute(query, (email,))
+        query = "select email from users where id_user = %s;"
+        cursor.execute(query, (user_id,))
         result = cursor.fetchone()
 
         return result
     except Exception as e:
-        print(f"Error in get_user_id: {e}")
+        print(f"Error in get_email_user_id: {e}")
         return None
 
+
+    
 
 # Function to create a new thread using OpenAI's API
 def create_new_thread():
@@ -68,7 +70,7 @@ def add_new_feedback(user_id, team_id, thread_id):
     try:
         # Insert the new feedback entry into the feedback table
         insert_query = """
-        INSERT INTO feedback (id_user, id_team, performance, well_being, flow, communication, proactivity, efficiency, satisfaction, thread_id)
+        INSERT INTO feedback (id_user, id_team, performance, well_being, flow, communication, proactivity, collaboration, efficiency, satisfaction, thread_id)
         VALUES (%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, %s);
         """
         print(f"Executing insert query: {insert_query} with values {user_id}, {team_id}, {thread_id}")
@@ -112,15 +114,16 @@ def check_feedback_table(user_id, team_id):
         return None
 
 
-def thread_process(user_id, thread_id):
+def thread_process(user_id, user_thread_id):
     message = str(input())
     try:
+        print("Enter thread process")
         message_thread = client.beta.threads.messages.create(
-            thread_id=thread_id,
+            thread_id=user_thread_id,
             role="user",
             content=message
         )
-        #print("Message thread created with ID: ", message_thread.id)
+        print("Message thread created with ID: ", message_thread.id)
 
         run = client.beta.threads.runs.create_and_poll(
             thread_id=check_feedback_table(user_id, team_id),
@@ -128,7 +131,7 @@ def thread_process(user_id, thread_id):
         )
         if run.status == 'completed':
             messages = client.beta.threads.messages.list(
-                thread_id=thread_id
+                thread_id=user_thread_id
             )
             for message in reversed(messages.data):
                 response = "Sara" + ':' + message.content[0].text.value
@@ -154,14 +157,14 @@ def update_profile_in_db(user_id, profile):
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
-            profile['performance'],
-            profile['well_being'],
-            profile['flow'],
-            profile['communication'],
-            profile['proactivity'],
-            profile['collaboration'],
-            profile['efficiency'],
-            profile['satisfaction'],
+            int(sum(profile['performance']) / len(profile['performance'])),
+            int(sum(profile['well_being']) / len(profile['well_being'])),
+            int(sum(profile['flow']) / len(profile['flow'])),
+            int(sum(profile['communication']) / len(profile['communication'])),
+            int(sum(profile['proactivity']) / len(profile['proactivity'])),
+            int(sum(profile['collaboration']) / len(profile['collaboration'])),
+            int(sum(profile['efficiency']) / len(profile['efficiency'])),
+            int(sum(profile['satisfaction']) / len(profile['satisfaction'])),
             
             user_id
         ))
@@ -207,20 +210,22 @@ feedback_data_example = {
 # Adding feedback to profile
 def add_feedback_to_profile(user_id, feedback_data):
     profile = get_or_create_profile(user_id)
+
+    #Que vergas hace esta funcion?
     update_profile(profile, feedback_data)
+
     update_profile_in_db(user_id, profile)  # Update the profile in the database
 
 class Sara:
-    def __init__(self, team_id, email, user_id):
+    def __init__(self, team_id, user_id):
         self.team_id = team_id
-        self.email = email
         self.user_id = user_id
 
     def handle_feedback(self):
         try:
             user = True
             if user:
-                user_id = 3
+                
                 thread_id = check_feedback_table(user_id, team_id)
                 print(f"Thread ID to use: {thread_id}")
                 print("type message")
@@ -238,10 +243,12 @@ class Sara:
 
 # Example usage
 email = "Select email from users where id_user = 3" #cambiese segun necesidad de prueba, este ya cuenta con thread
-user_id = 3  # This should be the user's email
-team_id = "select id_team from userteamposition where id_user = 3"  # This should be the team ID associated with the user
+user_id = 1  # This should be the user's email
+team_id = 21 # This should be the team ID associated with the user
 
-chatbot = Sara(team_id, email, user_id)
+print("Team id: ",team_id)
+print("User id: ", user_id)
+chatbot = Sara(team_id, user_id)
 chatbot.run()
 
 cursor.close()
