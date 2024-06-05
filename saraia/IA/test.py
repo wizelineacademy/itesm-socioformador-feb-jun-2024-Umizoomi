@@ -154,14 +154,14 @@ def update_profile_in_db(user_id, profile):
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
-            sum(profile['Performance']) / len(profile['Performance']),
-            sum(profile['Well-being']) / len(profile['Well-being']),
-            sum(profile['Flow']) / len(profile['Flow']),
-            sum(profile['Communication']) / len(profile['Communication']),
-            sum(profile['Proactivity']) / len(profile['Proactivity']),
-            sum(profile['Collaboration']) / len(profile['Collaboration']),
-            sum(profile['Efficiency']) / len(profile['Efficiency']),
-            sum(profile['Satisfaction']) / len(profile['Satisfaction']),
+            profile['Performance'],
+            profile['Well-being'],
+            profile['Flow'],
+            profile['Communication'],
+           profile['Proactivity'],
+            profile['Collaboration'],
+            profile['Efficiency'],
+            profile['Satisfaction'],
             
             user_id
         ))
