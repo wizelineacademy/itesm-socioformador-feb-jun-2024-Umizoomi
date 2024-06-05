@@ -142,20 +142,6 @@ def thread_process(user_id, thread_id):
         return None
 
 
-# Function to handle user feedback
-def handle_feedback(email):
-    try:
-        user = get_user_id(email)
-        if user:
-            user_id = user[0]
-            thread_id = check_feedback_table(user_id, team_id)
-            print(f"Thread ID to use: {thread_id}")
-            print("type message")
-            thread_process(user_id, thread_id)
-        else:
-            print("User does not exist in the users table.")
-    except Exception as e:
-        print(f"Error in handle_feedback: {e}")
 
 # Function to update profile in the database
 def update_profile_in_db(user_id, profile):
