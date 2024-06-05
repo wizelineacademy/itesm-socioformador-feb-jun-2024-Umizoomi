@@ -67,7 +67,7 @@ def add_new_feedback(user_id, team_id, thread_id):
 
         # Insert the new feedback entry into the feedback table
         insert_query = """
-        INSERT INTO feedback (id_user, id_team, purpose, productivity, autonomy, support, mastery, creativity, challenge, performance, thread_id)
+        INSERT INTO feedback (id_user, id_team, Performance, Well-being, Flow, Communication, Proactivity, Efficiency, challenge, Satisfaction, thread_id)
         VALUES (%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, %s);
         """
         print(f"Executing insert query: {insert_query} with values {user_id}, {team_id}, {thread_id}")
@@ -132,9 +132,8 @@ def thread_process(user_id, thread_id):
             messages = client.beta.threads.messages.list(
                 thread_id=thread_id
             )
-            print("Conversation:")
             for message in reversed(messages.data):
-                response = message.role + ':' + message.content[0].text.value
+                response = "Sara" + ':' + message.content[0].text.value
             print(response)
         else:
             print("Run status: ", run.status)
@@ -168,9 +167,9 @@ class Sara:
 
     def handle_feedback(self):
         try:
-            user = user_id
+            user = True
             if user:
-                user_id = user[0]
+                user_id = 3
                 thread_id = check_feedback_table(user_id, team_id)
                 print(f"Thread ID to use: {thread_id}")
                 print("type message")
@@ -187,9 +186,9 @@ class Sara:
 
 
 # Example usage
-email = "cherry@gmail.com" #cambiese segun necesidad de prueba, este ya cuenta con thread
+email = "Select email from users where id_user = 3" #cambiese segun necesidad de prueba, este ya cuenta con thread
 user_id = 3  # This should be the user's email
-team_id = 2  # This should be the team ID associated with the user
+team_id = "select id_team from userteamposition where id_user = 3"  # This should be the team ID associated with the user
 
 chatbot = Sara(team_id, email, user_id)
 chatbot.run()
