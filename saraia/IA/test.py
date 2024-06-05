@@ -67,7 +67,7 @@ def add_new_feedback(user_id, team_id, thread_id):
 
         # Insert the new feedback entry into the feedback table
         insert_query = """
-        INSERT INTO feedback (id_user, id_team, Performance, Well-being, Flow, Communication, Proactivity, Efficiency, challenge, Satisfaction, thread_id)
+        INSERT INTO feedback (id_user, id_team, Performance, Well-being, Flow, Communication, Proactivity, Efficiency, Satisfaction, thread_id)
         VALUES (%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, %s);
         """
         print(f"Executing insert query: {insert_query} with values {user_id}, {team_id}, {thread_id}")
