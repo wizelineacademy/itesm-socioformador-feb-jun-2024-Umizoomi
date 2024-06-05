@@ -152,7 +152,7 @@ def handle_feedback(email):
         if user:
             user_id = user[0]
             thread_id = check_feedback_table(user_id, team_id)
-            print(f"Thread ID to use: {thread_id}")
+            #print(f"Thread ID to use: {thread_id}")
             print("type message")
             thread_process(user_id, thread_id)
         else:
@@ -188,7 +188,7 @@ class Sara:
 # Example usage
 email = "cherry@gmail.com" #cambiese segun necesidad de prueba, este ya cuenta con thread
 user_id = 3  # This should be the user's email
-team_id = 2  # This should be the team ID associated with the user
+team_id = 21  # This should be the team ID associated with the user
 
 chatbot = Sara(team_id, email)
 chatbot.run()
