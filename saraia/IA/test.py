@@ -161,13 +161,14 @@ def handle_feedback(email):
         print(f"Error in handle_feedback: {e}")
 
 class Sara:
-    def __init__(self, team_id, email):
+    def __init__(self, team_id, email, user_id):
         self.team_id = team_id
         self.email = email
+        self.user_id = user_id
 
     def handle_feedback(self):
         try:
-            user = get_user_id(email)
+            user = user_id
             if user:
                 user_id = user[0]
                 thread_id = check_feedback_table(user_id, team_id)
@@ -190,7 +191,7 @@ email = "cherry@gmail.com" #cambiese segun necesidad de prueba, este ya cuenta c
 user_id = 3  # This should be the user's email
 team_id = 2  # This should be the team ID associated with the user
 
-chatbot = Sara(team_id, email)
+chatbot = Sara(team_id, email, user_id)
 chatbot.run()
 
 cursor.close()
