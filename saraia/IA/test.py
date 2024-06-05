@@ -201,7 +201,7 @@ feedback_data_example = {
     "Proactivity": 7,
     "Collaboration": 8,
     "Efficiency": 6,
-    "Performance": 7
+    "Satisfaction": 7
 }
 
 # Adding feedback to profile
