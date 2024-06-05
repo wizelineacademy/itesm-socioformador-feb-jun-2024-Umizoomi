@@ -163,19 +163,20 @@ def update_profile_in_db(user_id, profile):
 
         update_query = """
         UPDATE feedback
-        SET purpose = %s, productivity = %s, autonomy = %s, support = %s, mastery = %s,
-            creativity = %s, challenge = %s, performance = %s
+        SET Performance = %s, Well-being = %s, Flow = %s, Communication = %s, Proactivity = %s,
+            Collaboration = %s, Efficiency = %s, Satisfaction = %s
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
-            sum(profile['Purpose']) / len(profile['Purpose']),
-            sum(profile['Productivity']) / len(profile['Productivity']),
-            sum(profile['Autonomy']) / len(profile['Autonomy']),
-            sum(profile['Support']) / len(profile['Support']),
-            sum(profile['Mastery']) / len(profile['Mastery']),
-            sum(profile['Creativity']) / len(profile['Creativity']),
-            sum(profile['Challenge']) / len(profile['Challenge']),
             sum(profile['Performance']) / len(profile['Performance']),
+            sum(profile['Well-being']) / len(profile['Well-being']),
+            sum(profile['Flow']) / len(profile['Flow']),
+            sum(profile['Communication']) / len(profile['Communication']),
+            sum(profile['Proactivity']) / len(profile['Proactivity']),
+            sum(profile['Collaboration']) / len(profile['Collaboration']),
+            sum(profile['Efficiency']) / len(profile['Efficiency']),
+            sum(profile['Satisfaction']) / len(profile['Satisfaction']),
+            
             user_id
         ))
 
@@ -188,14 +189,14 @@ def update_profile_in_db(user_id, profile):
 def get_or_create_profile(user_id):
     if user_id not in profiles:
         profiles[user_id] = {
-            "Purpose": [],
-            "Productivity": [],
-            "Autonomy": [],
-            "Support": [],
-            "Mastery": [],
-            "Creativity": [],
-            "Challenge": [],
-            "Performance": []
+            "Performance": [],
+            "Well-being": [],
+            "Flow": [],
+            "Communication": [],
+            "Proactivity": [],
+            "Collaboration": [],
+            "Efficiency": [],
+            "Satisfaction": []
         }
     return profiles[user_id]
 
@@ -207,13 +208,13 @@ def update_profile(profile, feedback_data):
 
 # Example feedback data structure
 feedback_data_example = {
-    "Purpose": 8,
-    "Productivity": 7,
-    "Autonomy": 6,
-    "Support": 9,
-    "Mastery": 7,
-    "Creativity": 8,
-    "Challenge": 6,
+    "Performance": 8,
+    "Well-being": 7,
+    "Flow": 6,
+    "Communication": 9,
+    "Proactivity": 7,
+    "Collaboration": 8,
+    "Efficiency": 6,
     "Performance": 7
 }
 
