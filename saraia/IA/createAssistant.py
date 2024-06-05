@@ -21,7 +21,7 @@ assistant = client.beta.assistants.create(
     "Creating Profiles:"
     "Compile Data: Organize the feedback and metric scores for each individual into a comprehensive profile."
     "Metrics Evaluated:"
-    "| Characteristic | Very High (10-9)| High (8-7)| Mid (6-5)| Low (4-3)| Very Low (2-1)|"
+    "| Characteristic | Very High (10)| High (8)| Mid (5)| Low (3)| Very Low (1)|"
     "| Performance | Consistently exceeds expectations, demonstrating exceptional results in all tasks. | Consistently meets or exceeds expectations, produces high-quality work. | Meets expectations most of the time, occasional lapses in performance. | Often falls short of expectations, requires frequent redirection and support. | Fails to meet expectations consistently, produces subpar work. |"
     "| Well-being | Exhibits a strong sense of contentment and fulfillment, consistently maintains a healthy work-life balance. | Generally content, experiences occasional stress but manages it effectively. | Experiences moderate levels of stress, occasional difficulty in maintaining work-life balance. | Frequently experiences stress, struggles with maintaining a healthy work-life balance. | Experiences significant stress and dissatisfaction, lacks a healthy work-life balance. |"
     "| Flow | Easily achieves a state of concentration and productivity without distraction by long duration. | Often enters a state of flow and productivity, finds enjoyable work. | Experiences occasional moments of flow but can be distracted sometimes. | Struggles to stay in a productivity flow, often distracted. | Rarely experiences flow productivity, struggles trying to focus, doesn’t like work. |"
