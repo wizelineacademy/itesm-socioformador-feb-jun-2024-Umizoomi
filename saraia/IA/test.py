@@ -158,7 +158,7 @@ def update_profile_in_db(user_id, profile):
             profile['Well_being'],
             profile['Flow'],
             profile['Communication'],
-           profile['Proactivity'],
+            profile['Proactivity'],
             profile['Collaboration'],
             profile['Efficiency'],
             profile['Satisfaction'],
