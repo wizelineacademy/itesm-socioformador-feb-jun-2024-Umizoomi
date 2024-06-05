@@ -149,8 +149,8 @@ def update_profile_in_db(user_id, profile):
 
         update_query = """
         UPDATE feedback
-        SET Performance = %s, Well_being = %s, Flow = %s, Communication = %s, Proactivity = %s,
-            Collaboration = %s, Efficiency = %s, Satisfaction = %s
+        SET "Performance" = %s, "Well_being" = %s, "Flow" = %s, "Communication" = %s, "Proactivity" = %s,
+            "Collaboration" = %s, "Efficiency" = %s, "Satisfaction" = %s
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
