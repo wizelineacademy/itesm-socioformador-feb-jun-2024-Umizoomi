@@ -4,6 +4,7 @@ from openai import OpenAI
 from config import api_key
 import os
 import time
+import re
 
 
 # Establish client
@@ -249,6 +250,31 @@ team_id = 21 # This should be the team ID associated with the user
 print("Team id: ",team_id)
 print("User id: ", user_id)
 chatbot = Sara(team_id, user_id)
+
+# Define a function to extract and average the metrics
+def extract_metrics(message):
+    metrics = {}
+
+    # Check if the message contains the "### Metrics Evaluation" section
+    if "### Metrics Evaluation" in message:
+        # Regex pattern to find metric names and their respective ranges
+        pattern = re.compile(r"[*]{1,2}(.*?)[*]{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+        matches = pattern.findall(message)
+        
+        for match in matches:
+            metric_name = match[0].strip().lower().replace(" ", "_")
+            low, high = int(match[1]), int(match[2])
+            average = (low + high) / 2
+            metrics[metric_name] = average
+
+    return metrics
+
+# Extract the metrics
+metrics = extract_metrics(response)
+
+# Output the extracted metrics
+for metric, value in metrics.items():
+    print(f"{metric}: {value}")
 chatbot.run()
 
 cursor.close()
