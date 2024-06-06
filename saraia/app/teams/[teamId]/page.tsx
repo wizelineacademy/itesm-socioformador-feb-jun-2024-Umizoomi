@@ -10,7 +10,7 @@ type UserTeamsProps = {
   initialTeamNames: TeamName[];
 };
 
-const API_URL = '/api/teamdata';
+const API_URL = '/api/teammates';
 
 async function getData(TeamId : number): Promise<Miembro[]> {
   try {
