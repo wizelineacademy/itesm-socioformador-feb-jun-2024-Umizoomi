@@ -137,6 +137,20 @@ def thread_process(user_id, user_thread_id):
             for message in reversed(messages.data):
                 response = "Sara" + ':' + message.content[0].text.value
             print(response)
+            metrics = {}
+            if "###" in response or 'Metrics' in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                add_feedback_to_profile(user_id, metrics)
         else:
             print("Run status: ", run.status)
 
@@ -150,23 +164,21 @@ def thread_process(user_id, user_thread_id):
 # Function to update profile in the database
 def update_profile_in_db(user_id, profile):
     try:
-
         update_query = """
         UPDATE feedback
-        SET performance = %s, well_being = %s, flow = %s, communication = %s, proactivity = %s,
+        SET performance = %s, well_being = %s, flow = %s, communication = %s, activity = %s,
             collaboration = %s, efficiency = %s, satisfaction = %s
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
-            int(sum(profile['performance']) / len(profile['performance'])),
-            int(sum(profile['well_being']) / len(profile['well_being'])),
-            int(sum(profile['flow']) / len(profile['flow'])),
-            int(sum(profile['communication']) / len(profile['communication'])),
-            int(sum(profile['proactivity']) / len(profile['proactivity'])),
-            int(sum(profile['collaboration']) / len(profile['collaboration'])),
-            int(sum(profile['efficiency']) / len(profile['efficiency'])),
-            int(sum(profile['satisfaction']) / len(profile['satisfaction'])),
-            
+            int(sum(profile['performance']) / len(profile['performance'])) if profile['performance'] else 0,
+            int(sum(profile['well_being']) / len(profile['well_being'])) if profile['well_being'] else 0,
+            int(sum(profile['flow']) / len(profile['flow'])) if profile['flow'] else 0,
+            int(sum(profile['communication']) / len(profile['communication'])) if profile['communication'] else 0,
+            int(sum(profile['activity']) / len(profile['activity'])) if profile['activity'] else 0,
+            int(sum(profile['collaboration']) / len(profile['collaboration'])) if profile['collaboration'] else 0,
+            int(sum(profile['efficiency']) / len(profile['efficiency'])) if profile['efficiency'] else 0,
+            int(sum(profile['satisfaction']) / len(profile['satisfaction'])) if profile['satisfaction'] else 0,
             user_id
         ))
 
@@ -174,6 +186,7 @@ def update_profile_in_db(user_id, profile):
         print("Profile updated in database.")
     except Exception as e:
         print(f"Error updating profile in database: {e}")
+
 
 # Function to create or get a profile
 def get_or_create_profile(user_id):
@@ -183,7 +196,7 @@ def get_or_create_profile(user_id):
             "well_being": [],
             "flow": [],
             "communication": [],
-            "proactivity": [],
+            "activity": [],
             "collaboration": [],
             "efficiency": [],
             "satisfaction": []
@@ -196,6 +209,7 @@ def update_profile(profile, feedback_data):
         if key in feedback_data:
             profile[key].append(feedback_data[key])
 
+'''
 # Example feedback data structure
 feedback_data_example = {
     "performance": 8,
@@ -207,6 +221,7 @@ feedback_data_example = {
     "efficiency": 6,
     "satisfaction": 7
 }
+'''
 
 # Adding feedback to profile
 def add_feedback_to_profile(user_id, feedback_data):
@@ -225,13 +240,13 @@ class Sara:
     def handle_feedback(self):
         try:
             user = True
+            profile = get_or_create_profile(user_id)
             if user:
                 
                 thread_id = check_feedback_table(user_id, team_id)
                 print(f"Thread ID to use: {thread_id}")
                 print("type message")
                 thread_process(user_id, thread_id)
-                add_feedback_to_profile(user_id, feedback_data_example)  # Example data
             else:
                 print("User does not exist in the users table.")
         except Exception as e:
@@ -251,30 +266,9 @@ print("Team id: ",team_id)
 print("User id: ", user_id)
 chatbot = Sara(team_id, user_id)
 
-# Define a function to extract and average the metrics
-def extract_metrics(message):
-    metrics = {}
-
-    # Check if the message contains the "### Metrics Evaluation" section
-    if "### Metrics Evaluation" in message:
-        # Regex pattern to find metric names and their respective ranges
-        pattern = re.compile(r"[*]{1,2}(.*?)[*]{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-        matches = pattern.findall(message)
-        
-        for match in matches:
-            metric_name = match[0].strip().lower().replace(" ", "_")
-            low, high = int(match[1]), int(match[2])
-            average = (low + high) / 2
-            metrics[metric_name] = average
-
-    return metrics
-
-# Extract the metrics
-metrics = extract_metrics(response)
 
 # Output the extracted metrics
-for metric, value in metrics.items():
-    print(f"{metric}: {value}")
+
 chatbot.run()
 
 cursor.close()
