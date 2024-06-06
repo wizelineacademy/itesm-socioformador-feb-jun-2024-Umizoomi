@@ -10,11 +10,11 @@ type UserTeamsProps = {
   initialTeamNames: TeamName[];
 };
 
-const API_URL = '/api/teams';
+const API_URL = '/api/teamdata';
 
 async function getData(TeamId : number): Promise<Miembro[]> {
   try {
-    const response = await fetch(`${API_URL}?userId=${TeamId}`);
+    const response = await fetch(`${API_URL}?teamid=${TeamId}`);
     console.log(response);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -35,7 +35,8 @@ export default async function Teams({
 }: {
   params: {teamId: number};
 }) {
-  const data = await getData()
+  const data = await getData(params.teamId)
+  console.log(data);
 
   return (
     <div  id="container" className="flex ">
