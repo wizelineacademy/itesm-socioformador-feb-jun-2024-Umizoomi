@@ -16,21 +16,22 @@ export type Miembro = {
 
 export const columns: ColumnDef<Miembro>[] = [
     {
-        accessorKey: "name",
+        accessorKey: "username",
         header: "Name",
       },
       {
-        accessorKey: "grade",
+        accessorKey: "job_title",
+        header: "position",
+      },
+      {
+        accessorKey: "team_name",
+        header: "Team Name",
+      },
+      {
+        accessorKey: "overall_avarage",
         header: "Grade",
       },
-      {
-        accessorKey: "position",
-        header: "Equipo",
-      },
-      {
-        accessorKey: "date",
-        header: "Date Submitted",
-      },
+
     
     {
         id:"actions",
