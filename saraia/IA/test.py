@@ -157,7 +157,7 @@ def thread_process(user_id, user_thread_id):
 
             #     add_feedback_to_profile(user_id, metrics)
 
-            if "###" in response and "Adrian" in response and 'Metrics' in response:
+            if "### Your Self-Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -171,7 +171,7 @@ def thread_process(user_id, user_thread_id):
 
                 add_feedback_to_profile(1, metrics)
 
-            if "###" in response and "Carlos" in response and 'Metrics' in response:
+            if "### Carlos's Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -185,7 +185,7 @@ def thread_process(user_id, user_thread_id):
 
                 add_feedback_to_profile(3, metrics)
 
-            if "###" in response and "Oscar" in response and 'Metrics' in response:
+            if "### Oscar's Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -199,7 +199,7 @@ def thread_process(user_id, user_thread_id):
 
                 add_feedback_to_profile(15, metrics)
 
-            if "###" in response and "Luis" in response and 'Metrics' in response:
+            if "### Luis's Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -213,7 +213,7 @@ def thread_process(user_id, user_thread_id):
 
                 add_feedback_to_profile(5, metrics)
 
-            if "###" in response and "Kraken" in response and 'Metrics' in response:
+            if "### Kraken's Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
