@@ -24,7 +24,6 @@ async function getData(userId : number): Promise<Projecto[]> {
   try {
     console.log(userId);
     const response = await fetch(`${API_URL}?userId=${userId}`);
-    console.log(response);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
@@ -50,6 +49,8 @@ export default function Teams() {
     };
     fetchData();
   }, [session?.user.id]);
+  
+
   if (status === "authenticated") {
     return (
       <div  id="container" className="flex ">
