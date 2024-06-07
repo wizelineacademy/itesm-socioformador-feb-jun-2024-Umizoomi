@@ -4,14 +4,17 @@ import { Button } from "./ui/button"
 import { ScrollArea } from "./ui/scroll-area"
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar"
 import { SendHorizontalIcon, Zap } from 'lucide-react'
+import { useState } from "react"
 
 export default function Chat() {
-    interface Message {
-        id: number;
-        role: 'system' | 'user' | 'assistant';
-        content: string;
+  const [message, setMessage] = useState('');
 
-    }
+  interface Message {
+      id: number;
+      role: 'system' | 'user' | 'assistant';
+      content: string;
+  }
+
     
     const messages: Message[] = [
         {id: 1, role: 'system', content: 'You are a helpful assistant.' },
@@ -23,6 +26,26 @@ export default function Chat() {
         {id: 1,  role: 'user', content: 'Where was it played?' },
 
     ];
+    const handleSubmit = async (event: React.FormEvent) => {
+      event.preventDefault();
+
+      const response = await fetch('/api/message', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+          console.log('Message sent:', result);
+      } else {
+          console.error('Error sending message:', result.error);
+      }
+  };
+
     
     return (
         <section className="text-zinc-700 flex-1">
@@ -68,8 +91,10 @@ export default function Chat() {
               </div>
             ))}
                     </ScrollArea>
-                    <form className="relative">
+                    <form className="relative" onSubmit={handleSubmit}>
                         <Input
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
                             placeholder="Ask SaraAI ..."
                             className="pr-12 placeholder:italic placeholder:text-zinc-700"
                         />
