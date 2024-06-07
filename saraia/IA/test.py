@@ -169,7 +169,7 @@ def thread_process(user_id, user_thread_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(1, metrics)
+                update_profile_in_db(1, metrics)
 
             if "### Carlos's Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
@@ -183,7 +183,7 @@ def thread_process(user_id, user_thread_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(3, metrics)
+                update_profile_in_db(3, metrics)
 
             if "### Oscar's Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
@@ -197,7 +197,7 @@ def thread_process(user_id, user_thread_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(15, metrics)
+                update_profile_in_db(15, metrics)
 
             if "### Luis's Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
@@ -211,7 +211,7 @@ def thread_process(user_id, user_thread_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(5, metrics)
+                update_profile_in_db(5, metrics)
 
             if "### Kraken's Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
@@ -225,7 +225,7 @@ def thread_process(user_id, user_thread_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(16, metrics)
+                update_profile_in_db(16, metrics)
             
         else:
             print("Run status: ", run.status)
