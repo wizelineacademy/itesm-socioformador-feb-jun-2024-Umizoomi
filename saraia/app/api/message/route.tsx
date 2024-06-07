@@ -18,8 +18,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Team name is required and must be a string" }, { status: 400 });
         }
 
-        await db.execute(sql`INSERT INTO user_messages (message, id_user, id_team) VALUES ("Hello", 1, 21)`);
-        
+        await db.execute(sql`INSERT INTO user_messages (message, id_user, id_team) VALUES ('Hello', 1, 21)`);
+
 
         return NextResponse.json({ message: "Team added successfully" }, { status: 200 });
     } catch (error) {
