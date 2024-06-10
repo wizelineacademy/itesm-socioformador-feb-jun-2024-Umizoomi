@@ -1,6 +1,5 @@
 import os
 import re
-import time
 import psycopg2
 from openai import OpenAI
 from config import api_key
@@ -307,7 +306,6 @@ class Sara:
     def run(self):
         while True:
             self.handle_feedback()
-            # time.sleep(1)
 
 # Example usage
 email = "Select email from users where id_user = 3" # This user already has a thread
