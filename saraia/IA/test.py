@@ -1,6 +1,5 @@
 import os
 import re
-import time
 import psycopg2
 from openai import OpenAI
 from config import api_key
@@ -84,6 +83,21 @@ def add_new_ai_message(response, user_id, team_id):
     except Exception as e:
         print(f"Error in add_new_ai_message: {e}")
 
+def add_new_user_message(response, user_id, team_id):
+    try:
+        connection = connect_to_db()
+        cursor = connection.cursor()
+        insert_query = """
+        INSERT INTO user_messages (message, id_user, id_team) VALUES (%s, %s, %s);
+        """
+        cursor.execute(insert_query, (response, user_id, team_id))
+        connection.commit()
+        cursor.close()
+        connection.close()
+        print("New message added.")
+    except Exception as e:
+        print(f"Error in add_new_user_message: {e}")
+
 # Function to corroborate user ID with feedback table
 def check_feedback_table(user_id, team_id):
     try:
@@ -128,7 +142,21 @@ def thread_process(user_id, user_thread_id):
             print(response)
             add_new_ai_message(response, user_id, team_id)
             metrics = {}
-            if "###" in response or 'Metrics' in response:
+            # if "###" in response or 'Metrics' in response:
+            #     pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+            #     matches = pattern.findall(response)
+            #     for match in matches:
+            #         metric_name = match[0].strip().lower().replace(" ", "_")
+            #         low, high = int(match[1]), int(match[2])
+            #         average = (low + high) / 2
+            #         metrics[metric_name] = average
+
+            #     for metric, value in metrics.items():
+            #         print(f"{metric}: {value}")
+
+            #     add_feedback_to_profile(user_id, metrics)
+
+            if "###" in response and "Adrian" in response and 'Metrics' in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -140,7 +168,64 @@ def thread_process(user_id, user_thread_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(user_id, metrics)
+                add_feedback_to_profile(1, metrics)
+
+            if "###" in response and "Carlos" in response and 'Metrics' in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                add_feedback_to_profile(3, metrics)
+
+            if "###" in response and "Oscar" in response and 'Metrics' in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                add_feedback_to_profile(15, metrics)
+
+            if "###" in response and "Luis" in response and 'Metrics' in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                add_feedback_to_profile(5, metrics)
+
+            if "###" in response and "Kraken" in response and 'Metrics' in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                add_feedback_to_profile(16, metrics)
+            
         else:
             print("Run status: ", run.status)
         return run
@@ -221,7 +306,6 @@ class Sara:
     def run(self):
         while True:
             self.handle_feedback()
-            # time.sleep(1)
 
 # Example usage
 email = "Select email from users where id_user = 3" # This user already has a thread
