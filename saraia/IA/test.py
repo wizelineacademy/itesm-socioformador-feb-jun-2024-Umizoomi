@@ -1,7 +1,7 @@
 import os
 import re
 import psycopg2
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template_string
 from flask_cors import CORS
 from openai import OpenAI
 from config import api_key
@@ -11,6 +11,10 @@ client = OpenAI(api_key=api_key)
 
 # Define a dictionary to store profiles
 profiles = {}
+
+# Initialize Flask app
+app = Flask(__name__)
+CORS(app)
 
 # Connect to PostgreSQL
 def connect_to_db():
@@ -120,8 +124,7 @@ def check_feedback_table(user_id, team_id):
         print(f"Error in check_feedback_table: {e}")
         return None
 
-def thread_process(user_id, user_thread_id):
-    message = input("Type message: ")
+def thread_process(user_id, user_thread_id, message, team_id):
     try:
         print("Enter thread process")
         message_thread = client.beta.threads.messages.create(
@@ -135,105 +138,23 @@ def thread_process(user_id, user_thread_id):
             thread_id=user_thread_id,
             assistant_id=os.getenv('ASSISTANT_ID')
         )
+
         if run.status == 'completed':
             messages = client.beta.threads.messages.list(
                 thread_id=user_thread_id
             )
+            response = ""
             for message in reversed(messages.data):
                 response = "Sara" + ':' + message.content[0].text.value
             print(response)
             add_new_ai_message(response, user_id, team_id)
-            metrics = {}
-            # if "###" in response or 'Metrics' in response:
-            #     pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-            #     matches = pattern.findall(response)
-            #     for match in matches:
-            #         metric_name = match[0].strip().lower().replace(" ", "_")
-            #         low, high = int(match[1]), int(match[2])
-            #         average = (low + high) / 2
-            #         metrics[metric_name] = average
-
-            #     for metric, value in metrics.items():
-            #         print(f"{metric}: {value}")
-
-            #     add_feedback_to_profile(user_id, metrics)
-
-            if "###" in response and "Adrian" in response and 'Metrics' in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
-
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
-
-                add_feedback_to_profile(1, metrics)
-
-            if "###" in response and "Carlos" in response and 'Metrics' in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
-
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
-
-                add_feedback_to_profile(3, metrics)
-
-            if "###" in response and "Oscar" in response and 'Metrics' in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
-
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
-
-                add_feedback_to_profile(15, metrics)
-
-            if "###" in response and "Luis" in response and 'Metrics' in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
-
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
-
-                add_feedback_to_profile(5, metrics)
-
-            if "###" in response and "Kraken" in response and 'Metrics' in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
-
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
-
-                add_feedback_to_profile(16, metrics)
-            
+            return response
         else:
             print("Run status: ", run.status)
-        return run
+            return "AI response is not ready yet"
     except Exception as e:
         print(f"Error in thread_process: {e}")
-        return None
+        return f"Error: {e}"
 
 # Function to update profile in the database
 def update_profile_in_db(user_id, profile):
@@ -296,27 +217,35 @@ class Sara:
         self.team_id = team_id
         self.user_id = user_id
 
-    def handle_feedback(self):
+    def handle_feedback(self, message):
         try:
             profile = get_or_create_profile(self.user_id)
             thread_id = check_feedback_table(self.user_id, self.team_id)
             print(f"Thread ID to use: {thread_id}")
-            thread_process(self.user_id, thread_id)
+            response = thread_process(self.user_id, thread_id, message, self.team_id)
+            return response
         except Exception as e:
             print(f"Error in handle_feedback: {e}")
+            return f"Error: {e}"
 
-    def run(self):
-        while True:
-            self.handle_feedback()
+    def run(self, message):
+        return self.handle_feedback(message)
 
-# Example usage
-email = "Select email from users where id_user = 3" # This user already has a thread
-user_id = 1  # This should be the user's ID
-team_id = 21 # This should be the team ID associated with the user
+@app.route('/get_ai_response', methods=['POST'])
+def get_ai_response():
+    
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        team_id = request.form.get('team_id')
+        message = request.form.get('message')
 
-print("Team id: ", team_id)
-print("User id: ", user_id)
-chatbot = Sara(team_id, user_id)
+    if not user_id or not team_id or not message:
+        return jsonify({"error": "Missing user_id, team_id, or message"})
 
-# Output the extracted metrics
-chatbot.run()
+    chatbot = Sara(int(team_id), int(user_id))
+    response = chatbot.run(message)
+    return jsonify({"response": response})
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
