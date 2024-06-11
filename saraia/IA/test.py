@@ -154,7 +154,8 @@ def thread_process(user_id, user_thread_id, message, team_id):
             return "AI response is not ready yet"
     except Exception as e:
         print(f"Error in thread_process: {e}")
-        return f"Error: {e}"
+        return
+        # return f"Error: {e}"
 
 # Function to update profile in the database
 def update_profile_in_db(user_id, profile):
