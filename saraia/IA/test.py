@@ -145,7 +145,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
             )
             response = ""
             for message in reversed(messages.data):
-                response = "Sara" + ':' + message.content[0].text.value
+                response = message.content[0].text.value
             print(response)
             add_new_ai_message(response, user_id, team_id)
             return response
