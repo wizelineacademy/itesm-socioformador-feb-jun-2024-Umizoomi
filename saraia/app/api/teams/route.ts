@@ -18,7 +18,10 @@ export async function GET(request: NextRequest) {
 
         // Perform the database query
         const teamNames = await db
-            .select({ nombre: team.teamName })
+        .select({
+            nombre: team.teamName,
+            id: team.idTeam
+          })
             .from(team)
             .innerJoin(userteamposition, eq(userteamposition.idTeam, team.idTeam))
             .where(eq(userteamposition.idUser, userIdNumber));

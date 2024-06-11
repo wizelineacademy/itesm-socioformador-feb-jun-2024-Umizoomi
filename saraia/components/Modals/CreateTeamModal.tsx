@@ -53,7 +53,7 @@ export default function CreateTeamModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Create a Team</Button>
+        <Button variant="default">Create a Team</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-slate-50">
         <DialogHeader>
