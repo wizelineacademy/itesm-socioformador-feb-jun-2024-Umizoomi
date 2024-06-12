@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image";
 import LoginPage from "../loginform/page";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth/auth";
 
 export default async function Login(){
-  const session = await getServerSession();
+  const session = await auth();
   if (session) {
     redirect('/');
   }
