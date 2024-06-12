@@ -5,6 +5,7 @@ import { sql } from "drizzle-orm";
 import { User } from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
+import * as tables from "@/lib/schema"
 
 declare module "next-auth" {
     interface AdapterUser extends User {userID:number}
@@ -13,7 +14,11 @@ declare module "next-auth" {
    
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-    adapter: DrizzleAdapter(db),
+    adapter: DrizzleAdapter(db, {
+        usersTable: tables.users,
+        accountsTable: tables.account,
+        sessionsTable: tables.sessions,
+      }),
     providers: [CredentialsProvider({
     credentials: {
         email: { type: 'text' },
