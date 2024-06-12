@@ -5,12 +5,10 @@ import { db } from "@/lib/db";
 import { team, userteamposition } from "@/lib/schema";
 import { getToken } from "next-auth/jwt";
 import { eq, sql } from "drizzle-orm";
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../auth/[...nextauth]/route";
-
+import { auth } from "@/auth/auth";
 export async function POST(request: NextRequest) {
     try {
-        const session = await getServerSession(nextAuthOptions);
+        const session = await auth();
 
         const { message } = await request.json();
 

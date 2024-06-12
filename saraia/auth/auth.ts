@@ -1,12 +1,20 @@
-import NextAuth from "next-auth"
 import CredentialsProvider  from "next-auth/providers/credentials";
 import { db } from "@/lib/db";
 import { compare } from "bcrypt";
-import { User } from "@/types/next-auth";
 import { sql } from "drizzle-orm";
+import { User } from "next-auth";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import NextAuth from "next-auth";
+
+declare module "next-auth" {
+    interface AdapterUser extends User {userID:number}
+
+}
+   
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  providers: [CredentialsProvider({
+    adapter: DrizzleAdapter(db),
+    providers: [CredentialsProvider({
     credentials: {
         email: { type: 'text' },
         password: { type: 'password' },
@@ -25,11 +33,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
             const password = user.password as string;
             const passwordCorrect = await compare(credentials.password, password);
+
             if (passwordCorrect) {
                 return {
-                    id: user.id_user as number, 
                     email: user.email as string, 
                     name: user.username as string, 
+                    userID: user.id_user as number, 
                 } as User; 
             } else {
                 throw new Error("Incorrect password");

@@ -2,8 +2,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { sql } from "drizzle-orm";
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../auth/[...nextauth]/route";
 
 export async function GET(request: NextRequest) {
     try {
