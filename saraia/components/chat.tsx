@@ -34,7 +34,7 @@ export default function Chat() {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
-          user_id: '1', // Replace with actual user ID
+          user_id: '16', // Replace with actual user ID
           team_id: '21', // Replace with actual team ID
           message,
         }),

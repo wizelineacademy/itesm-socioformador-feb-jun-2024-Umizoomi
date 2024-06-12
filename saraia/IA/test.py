@@ -62,7 +62,7 @@ def add_new_feedback(user_id, team_id, thread_id):
         connection = connect_to_db()
         cursor = connection.cursor()
         insert_query = """
-        INSERT INTO feedback (id_user, id_team, performance, well_being, flow, communication, proactivity, collaboration, efficiency, satisfaction, thread_id)
+        INSERT INTO feedback (id_user, id_team, "Performance", well_being, flow, communication, activity, collaboration, efficiency, satisfaction, thread_id)
         VALUES (%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, %s);
         """
         cursor.execute(insert_query, (user_id, team_id, thread_id))
@@ -164,12 +164,12 @@ def update_profile_in_db(user_id, profile):
         cursor = connection.cursor()
         update_query = """
         UPDATE feedback
-        SET performance = %s, well_being = %s, flow = %s, communication = %s, activity = %s,
+        SET "Performance" = %s, well_being = %s, flow = %s, communication = %s, activity = %s,
             collaboration = %s, efficiency = %s, satisfaction = %s
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
-            int(sum(profile['performance']) / len(profile['performance'])) if profile['performance'] else 0,
+            int(sum(profile['"Performance"']) / len(profile['"Performance"'])) if profile['"Performance"'] else 0,
             int(sum(profile['well_being']) / len(profile['well_being'])) if profile['well_being'] else 0,
             int(sum(profile['flow']) / len(profile['flow'])) if profile['flow'] else 0,
             int(sum(profile['communication']) / len(profile['communication'])) if profile['communication'] else 0,
@@ -190,7 +190,7 @@ def update_profile_in_db(user_id, profile):
 def get_or_create_profile(user_id):
     if user_id not in profiles:
         profiles[user_id] = {
-            "performance": [],
+            "Performance": [],
             "well_being": [],
             "flow": [],
             "communication": [],
