@@ -39,3 +39,4 @@ Sprint 6: https://docs.google.com/document/d/1fYUAljdTpHXtDRhw0cz4yLLlYdGxpxb3ct
 ## Video de la funcionalidad de la aplicación
 
 ## Presentación final
+https://www.canva.com/design/DAGHMG4f-f8/0Nltq0j1lT6wFYtuqkt2NQ/edit?utm_content=DAGHMG4f-f8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
