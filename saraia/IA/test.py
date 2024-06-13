@@ -148,7 +148,91 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 response = "Sara" + ':' + message.content[0].text.value
             print(response)
             add_new_ai_message(response, user_id, team_id)
-            return response
+            metrics = {}
+            # if "###" in response or 'Metrics' in response:
+            #     pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+            #     matches = pattern.findall(response)
+            #     for match in matches:
+            #         metric_name = match[0].strip().lower().replace(" ", "_")
+            #         low, high = int(match[1]), int(match[2])
+            #         average = (low + high) / 2
+            #         metrics[metric_name] = average
+
+            #     for metric, value in metrics.items():
+            #         print(f"{metric}: {value}")
+
+            #     add_feedback_to_profile(user_id, metrics)
+
+            if "### Your Self-Evaluation" in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                update_profile_in_db(1, metrics)
+
+            if "### Carlos's Evaluation" in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                update_profile_in_db(3, metrics)
+
+            if "### Oscar's Evaluation" in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                update_profile_in_db(15, metrics)
+
+            if "### Luis's Evaluation" in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                update_profile_in_db(5, metrics)
+
+            if "### Kraken's Evaluation" in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                update_profile_in_db(16, metrics)
+            
         else:
             print("Run status: ", run.status)
             return "AI response is not ready yet"
