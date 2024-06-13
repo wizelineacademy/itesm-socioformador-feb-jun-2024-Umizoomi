@@ -1,6 +1,16 @@
-import { pgTable, serial, integer, varchar, timestamp, text, foreignKey } from "drizzle-orm/pg-core"
-  import { sql } from "drizzle-orm"
-
+import {
+	boolean,
+	timestamp,
+	pgTable,
+	text,
+	primaryKey,
+	integer,
+	serial,
+	varchar
+  } from "drizzle-orm/pg-core"
+  import postgres from "postgres"
+  import { drizzle } from "drizzle-orm/postgres-js"
+  import type { AdapterAccountType } from "next-auth/adapters"
 
 
 export const admins = pgTable("admins", {
@@ -13,16 +23,85 @@ export const jobtitles = pgTable("jobtitles", {
 	title: varchar("title", { length: 50 }).notNull(),
 });
 
-export const users = pgTable("users", {
-	idUser: serial("id_user").primaryKey().notNull(),
-	username: varchar("username", { length: 50 }).notNull(),
-	password: varchar("password", { length: 73 }).notNull(),
-	datecreated: timestamp("datecreated", { mode: 'string' }).defaultNow(),
-	creatoradminid: integer("creatoradminid"),
-	email: varchar("email", { length: 320 }),
-	emailverified: timestamp("emailverified", { mode: 'string' }),
+export const users = pgTable("user", {
+	id: text("id")
+	  .primaryKey()
+	  .$defaultFn(() => crypto.randomUUID()),
+	name: text("name"),
+	email: text("email").notNull(),
+	emailVerified: timestamp("emailVerified", { mode: "date" }),
 	image: text("image"),
-});
+  })
+  export const accounts = pgTable(
+	"account",
+	{
+	  userId: text("userId")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	  type: text("type").$type<AdapterAccountType>().notNull(),
+	  provider: text("provider").notNull(),
+	  providerAccountId: text("providerAccountId").notNull(),
+	  refresh_token: text("refresh_token"),
+	  access_token: text("access_token"),
+	  expires_at: integer("expires_at"),
+	  token_type: text("token_type"),
+	  scope: text("scope"),
+	  id_token: text("id_token"),
+	  session_state: text("session_state"),
+	},
+	(account) => ({
+	  compoundKey: primaryKey({
+		columns: [account.provider, account.providerAccountId],
+	  }),
+	})
+  )
+   
+  export const sessions = pgTable("session", {
+	id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+	sessionToken: text("sessionToken").primaryKey(),
+	userId: text("userId")
+	  .notNull()
+	  .references(() => users.id, { onDelete: "cascade" }),
+	expires: timestamp("expires", { mode: "date" }).notNull(),
+  })
+   
+  export const verificationTokens = pgTable(
+	"verificationToken",
+	{
+	  identifier: text("identifier").notNull(),
+	  token: text("token").notNull(),
+	  expires: timestamp("expires", { mode: "date" }).notNull(),
+	},
+	(verificationToken) => ({
+	  compositePk: primaryKey({
+		columns: [verificationToken.identifier, verificationToken.token],
+	  }),
+	})
+  )
+   
+  export const authenticators = pgTable(
+	"authenticator",
+	{
+	  credentialID: text("credentialID").notNull().unique(),
+	  userId: text("userId")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	  providerAccountId: text("providerAccountId").notNull(),
+	  credentialPublicKey: text("credentialPublicKey").notNull(),
+	  counter: integer("counter").notNull(),
+	  credentialDeviceType: text("credentialDeviceType").notNull(),
+	  credentialBackedUp: boolean("credentialBackedUp").notNull(),
+	  transports: text("transports"),
+	},
+	(authenticator) => ({
+	  compositePK: primaryKey({
+		columns: [authenticator.userId, authenticator.credentialID],
+	  }),
+	})
+  )
+
 
 export const team = pgTable("team", {
 	idTeam: serial("id_team").primaryKey().notNull(),
@@ -70,27 +149,4 @@ export const userMessages = pgTable("user_messages", {
 	idTeam: integer("id_team"),
 	email: varchar("email", { length: 320 }),
 	threadId: varchar("thread_id", { length: 64 }),
-});
-
-export const sessions = pgTable("session", {
-	sessionToken: text("sessionToken").primaryKey(),
-	userId: text("userId")
-	  .notNull()
-	  .references(() => users.idUser, { onDelete: "cascade" }),
-	expires: timestamp("expires", { mode: "date" }).notNull(),
-  })
-
-export const account = pgTable("account", {
-	compoundkey: integer("compoundkey").primaryKey().notNull(),
-	userid: integer("userid").references(() => users.idUser, { onDelete: "cascade" } ),
-	type: text("type"),
-	provider: text("provider"),
-	provideraccountid: text("provideraccountid"),
-	refreshToken: text("refresh_token"),
-	accessTokken: text("access_tokken"),
-	expiresAt: integer("expires_at"),
-	tokenType: text("token_type"),
-	scope: text("scope"),
-	idTokken: text("id_tokken"),
-	sessionState: text("session_state"),
 });

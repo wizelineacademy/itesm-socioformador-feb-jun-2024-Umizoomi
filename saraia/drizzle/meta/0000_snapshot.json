@@ -1,0 +1,523 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "admins": {
+      "name": "admins",
+      "schema": "",
+      "columns": {
+        "id_admin": {
+          "name": "id_admin",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "jobtitles": {
+      "name": "jobtitles",
+      "schema": "",
+      "columns": {
+        "id_jobtitle": {
+          "name": "id_jobtitle",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id_user": {
+          "name": "id_user",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(73)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "datecreated": {
+          "name": "datecreated",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "creatoradminid": {
+          "name": "creatoradminid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(320)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "emailverified": {
+          "name": "emailverified",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "team": {
+      "name": "team",
+      "schema": "",
+      "columns": {
+        "id_team": {
+          "name": "id_team",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "team_name": {
+          "name": "team_name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "userteamposition": {
+      "name": "userteamposition",
+      "schema": "",
+      "columns": {
+        "id_ustepo": {
+          "name": "id_ustepo",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_team": {
+          "name": "id_team",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_jobtitle": {
+          "name": "id_jobtitle",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "userteamposition_id_jobtitle_jobtitles_id_jobtitle_fk": {
+          "name": "userteamposition_id_jobtitle_jobtitles_id_jobtitle_fk",
+          "tableFrom": "userteamposition",
+          "tableTo": "jobtitles",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "id_jobtitle"
+          ],
+          "columnsTo": [
+            "id_jobtitle"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "feedback": {
+      "name": "feedback",
+      "schema": "",
+      "columns": {
+        "id_feedback": {
+          "name": "id_feedback",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "Performance": {
+          "name": "Performance",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "well_being": {
+          "name": "well_being",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flow": {
+          "name": "flow",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "communication": {
+          "name": "communication",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "activity": {
+          "name": "activity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "collaboration": {
+          "name": "collaboration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "efficiency": {
+          "name": "efficiency",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "satisfaction": {
+          "name": "satisfaction",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "thread_id": {
+          "name": "thread_id",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_team": {
+          "name": "id_team",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "feedback_time": {
+          "name": "feedback_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "messages": {
+      "name": "messages",
+      "schema": "",
+      "columns": {
+        "id_message": {
+          "name": "id_message",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "message": {
+          "name": "message",
+          "type": "varchar(9999)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "messagedate": {
+          "name": "messagedate",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_team": {
+          "name": "id_team",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(320)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "thread_id": {
+          "name": "thread_id",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user_messages": {
+      "name": "user_messages",
+      "schema": "",
+      "columns": {
+        "id_usermessage": {
+          "name": "id_usermessage",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "message": {
+          "name": "message",
+          "type": "varchar(9999)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "messagedate": {
+          "name": "messagedate",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_team": {
+          "name": "id_team",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(320)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "thread_id": {
+          "name": "thread_id",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "session": {
+      "name": "session",
+      "schema": "",
+      "columns": {
+        "sessionToken": {
+          "name": "sessionToken",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userid": {
+          "name": "userid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires": {
+          "name": "expires",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "fk_id_puserid": {
+          "name": "fk_id_puserid",
+          "tableFrom": "session",
+          "tableTo": "users",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "userid"
+          ],
+          "columnsTo": [
+            "id_user"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "account": {
+      "name": "account",
+      "schema": "",
+      "columns": {
+        "compoundkey": {
+          "name": "compoundkey",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userid": {
+          "name": "userid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "provider": {
+          "name": "provider",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "provideraccountid": {
+          "name": "provideraccountid",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "access_tokken": {
+          "name": "access_tokken",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "token_type": {
+          "name": "token_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scope": {
+          "name": "scope",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_tokken": {
+          "name": "id_tokken",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "session_state": {
+          "name": "session_state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "fk_id_auserid": {
+          "name": "fk_id_auserid",
+          "tableFrom": "account",
+          "tableTo": "users",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "userid"
+          ],
+          "columnsTo": [
+            "id_user"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

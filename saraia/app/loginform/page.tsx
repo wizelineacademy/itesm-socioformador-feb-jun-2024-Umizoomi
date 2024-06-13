@@ -1,7 +1,7 @@
-import Form from "./form";
+import {Form} from "./form";
 import  {Input} from "@/components/ui/input";
 
-export default function LoginPage(){
+export default function LogisnPage(){
     return (
         <Form />
     )

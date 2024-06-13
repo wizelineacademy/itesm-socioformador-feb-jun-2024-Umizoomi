@@ -7,7 +7,7 @@ import { auth } from "@/auth/auth";
 export default async function Login(){
   const session = await auth();
   if (session) {
-    redirect('/');
+    redirect('/dashboard');
   }
   return (
     <div className="h-screen flex justify-center items-center bg-custom-dark bg-opacity-95">
