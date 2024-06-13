@@ -1,4 +1,3 @@
-'use client';
 import { FormEvent } from "react";
 import { signIn } from "@/auth/auth"
 import  {Input} from "@/components/ui/input";
@@ -8,19 +7,17 @@ import  { useRouter } from "next/navigation";
 
 export function Form(){
     return (
-        <div className="flex items-center flex-col w-auto gap-8 font-sans">
-        <h1 className='text-2xl font-sans font-normal	'>
-          Login
-        </h1>
-        <div className=" bg-slate-900 w-full h-0.5 rounded-sm"> </div>
-        <form>
+      <form
+      action={async (formData) => {
+        "use server"
+        await signIn("resend", formData)
+      }}>
           <Label htmlFor="email">Email</Label>
-          <Input name="email"  type="email" placeholder="Email"></Input>
+          <Input name="email"  type="text" placeholder="Email"></Input>
           <div className=" bg-slate-900 h-0.5 rounded-sm"> </div>
 
-          <Button className="my-5" type="submit">Login</Button>
+          <Button className="my-5" type="submit">Sign in with ReSend</Button>
         </form>
-      </div>
     );
 
 }

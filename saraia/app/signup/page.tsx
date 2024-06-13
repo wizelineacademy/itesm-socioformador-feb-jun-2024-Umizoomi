@@ -1,13 +1,12 @@
-import {Form} from "./form";
+import Form from "./form";
 import  {Input} from "@/components/ui/input";
 
 export default function LogisnPage(){
     return (
-        <div className="flex items-center flex-col w-auto gap-8 font-sans">
+        <div className="flex items-center flex-col w-auto gap-8 font-sans mt-10">
             <h1 className='text-2xl font-sans font-normal	'>
-            Login
+            Additional Data
             </h1>
-            <div className=" bg-slate-900 w-full h-0.5 rounded-sm"> </div>
             <Form />
 
         </div>

@@ -13,25 +13,12 @@ import { config } from "process";
 const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 
-
-
-   
-
 export const { auth, handlers, signIn, signOut } = NextAuth({
     adapter: DrizzleAdapter(db),
+    pages: {newUser: "/signup"},
     providers:[Resend({
         apiKey: process.env.AUTH_RESEND_KEY,
-        id:'email',
-        name:'email',
-        server: {
-            host: process.env.EMAIL_SERVER_HOST,
-            port: process.env.EMAIL_SERVER_PORT,
-            auth: {
-                user: process.env.EMAIL_SERVER_USER,
-                pass: process.env.EMAIL_SERVER_PASSWORD
-            }
-        },
-        from:process.env.EMAIL_FROM,
-    }
-)], 
+        from: "sara@saraai.xyz",
+    }),
+    ],
 })
