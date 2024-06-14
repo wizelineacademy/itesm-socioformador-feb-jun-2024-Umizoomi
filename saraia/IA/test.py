@@ -153,7 +153,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 # add_feedback_to_profile(1, metrics)
                 print("Adrian feedback added")
 
-            if "provided for Adrian" in response:
+            if "Adrian's feedback" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -170,7 +170,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 print("Adrian feedback added")
             
 
-            if "provided for Carlos" in response:
+            if "Carlos's feedback" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -187,7 +187,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
 
 
 
-            if "provided for Oscar" in response:
+            if "Oscar's feedback" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -204,7 +204,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 print("Oscar feedback added")
 
 
-            if "provided for Luis" in response:
+            if "Luis' feedback" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -221,7 +221,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 print("Luis feedback added")
 
 
-            if "provided for Kraken" in response:
+            if "Kraken's feedback" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -257,17 +257,24 @@ def update_profile_in_db(user_id, profile):
             collaboration = %s, efficiency = %s, satisfaction = %s
         WHERE id_user = %s;
         """
+        
+        performance = profile.get('Performance', [0])[0]
+        well_being = profile.get('well_being', [0])[0]
+        flow = profile.get('flow', [0])[0]
+        communication = profile.get('communication', [0])[0]
+        activity = profile.get('activity', [0])[0]
+        collaboration = profile.get('collaboration', [0])[0]
+        efficiency = profile.get('efficiency', [0])[0]
+        satisfaction = profile.get('satisfaction', [0])[0]
+
+        print(cursor.mogrify(update_query, (
+            performance, well_being, flow, communication, activity, collaboration, efficiency, satisfaction, user_id
+        )))
+        
         cursor.execute(update_query, (
-            int(sum(profile['Performance']) / len(profile['Performance'])) if profile['Performance'] else 0,
-            int(sum(profile['well_being']) / len(profile['well_being'])) if profile['well_being'] else 0,
-            int(sum(profile['flow']) / len(profile['flow'])) if profile['flow'] else 0,
-            int(sum(profile['communication']) / len(profile['communication'])) if profile['communication'] else 0,
-            int(sum(profile['activity']) / len(profile['activity'])) if profile['activity'] else 0,
-            int(sum(profile['collaboration']) / len(profile['collaboration'])) if profile['collaboration'] else 0,
-            int(sum(profile['efficiency']) / len(profile['efficiency'])) if profile['efficiency'] else 0,
-            int(sum(profile['satisfaction']) / len(profile['satisfaction'])) if profile['satisfaction'] else 0,
-            user_id
+            performance, well_being, flow, communication, activity, collaboration, efficiency, satisfaction, user_id
         ))
+        
         connection.commit()
         cursor.close()
         connection.close()
