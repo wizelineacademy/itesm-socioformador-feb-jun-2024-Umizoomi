@@ -19,9 +19,8 @@ type UserTeamsProps = {
 
 const API_URL = '/api/teams';
 
-async function getData(userId : number): Promise<Projecto[]> {
+async function getData(userId : string): Promise<Projecto[]> {
   try {
-    console.log(userId);
     const response = await fetch(`${API_URL}?userId=${userId}`);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -42,7 +41,7 @@ export default function Teams() {
   const [tabledata, setTableData] = useState<Projecto[]>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedData = await getData(userId as number);
+      const fetchedData = await getData(userId as string);
 
       setTableData(fetchedData);
     };

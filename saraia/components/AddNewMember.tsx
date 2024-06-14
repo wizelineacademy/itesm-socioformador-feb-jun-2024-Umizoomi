@@ -16,40 +16,40 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-// Example utility function for classNames, replace with your actual implementation
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
 interface User {
-  id: number;
-  username: string;
+  id: string;
+  username: string | null;
   job_title: string;
   team_name: string;
   overall_average: number;
 }
 
 interface AddNewMemberProps {
-  teamId: number; // Assuming you pass the team ID as a prop
+  teamId: number;
 }
 
 export default function AddNewMember({ teamId }: AddNewMemberProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
-  const [users, setUsers] = React.useState<User[]>([]); // State to hold users data
-  const [loading, setLoading] = React.useState(false); // Loading state indicator
+  const [users, setUsers] = React.useState<User[]>([]);
+  const [loading, setLoading] = React.useState(false);
 
-  // Function to fetch users data
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/users"); // Replace with your actual API endpoint
+      const response = await fetch("/api/getusersforteam");
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }
       const data = await response.json();
-      setUsers(data); // Update state with fetched users data
+      setUsers(data.rows.map((user: any) => ({
+        id: user.id_user,
+        username: user.name,
+        job_title: user.job_title,
+        team_name: user.team_name,
+        overall_average: user.overall_average,
+      })));
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -58,31 +58,27 @@ export default function AddNewMember({ teamId }: AddNewMemberProps) {
   };
 
   React.useEffect(() => {
-    fetchUsers(); // Fetch users data on component mount
-  }, []); // Dependency array to run effect only once
+    fetchUsers();
+  }, []);
 
-  // Function to handle adding a member to the team
-  const handleAddMember = async (userId: number) => {
+  const handleAddMember = async (userId: string) => {
     try {
-      const response = await fetch("/api/add-member", {
+      const response = await fetch("/api/addmember", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ teamId, userId }), // Pass teamId and userId to backend
+        body: JSON.stringify({ teamId, userId }),
       });
 
       if (!response.ok) {
         throw new Error("Failed to add team member");
       }
 
-      // Handle success as needed (e.g., refresh data)
-      // Example: Reload data after addition
       window.location.reload(); // Replace with more sophisticated handling if needed
 
     } catch (error) {
       console.error("Error adding team member:", error);
-      // Handle error state if necessary
     }
   };
 
@@ -96,7 +92,7 @@ export default function AddNewMember({ teamId }: AddNewMemberProps) {
           className="w-[200px] justify-between"
         >
           {value ? (
-            users.find((user) => user.id.toString() === value)?.username
+            users.find((user) => user.id === value)?.username ?? "User not found"
           ) : (
             "Select user..."
           )}
@@ -111,36 +107,35 @@ export default function AddNewMember({ teamId }: AddNewMemberProps) {
             {!loading && users.length === 0 && (
               <CommandEmpty>No users found.</CommandEmpty>
             )}
-            {!loading &&
-              users.length > 0 && (
-                <CommandGroup>
-                  {users.map((user) => (
-                    <CommandItem
-                      key={user.id}
-                      value={user.id.toString()}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={classNames(
-                          "mr-2 h-4 w-4",
-                          value === user.id.toString() ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {user.username}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              )}
+            {!loading && users.length > 0 && (
+              <CommandGroup>
+                {users.map((user) => (
+                  <CommandItem
+                    key={user.id}
+                    value={user.id}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? "" : currentValue);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === user.id ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {user.username ?? "No name"}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
           </CommandList>
         </Command>
         {value && (
           <Button
             variant="default"
             className="w-full"
-            onClick={() => handleAddMember(parseInt(value))}
+            onClick={() => handleAddMember(value)}
           >
             Add to Team
           </Button>
