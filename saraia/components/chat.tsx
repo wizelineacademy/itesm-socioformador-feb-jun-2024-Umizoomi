@@ -13,9 +13,9 @@ export default function Chat() {
   ]);
 
   interface Message {
-      id: number;
-      role: 'system' | 'user' | 'assistant';
-      content: string;
+    id: number;
+    role: 'system' | 'user' | 'assistant';
+    content: string;
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -23,32 +23,35 @@ export default function Chat() {
     if (!message.trim()) return;
 
     // Add user message to the chat
-    setMessages([...messages, { id: Date.now(), role: 'user', content: message }]);
+    const newMessage: Message = { id: Date.now(), role: 'user', content: message };
+    setMessages([...messages, newMessage]);
 
-    // Send user message to the server
-    const response = await fetch('/api/message', {
+    try {
+      // Send user message to the Flask server
+      const response = await fetch('http://localhost:5000/get_ai_response', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({ message }),
-    });
+        body: new URLSearchParams({
+          user_id: '16', // Replace with actual user ID
+          team_id: '21', // Replace with actual team ID
+          message,
+        }),
+      });
 
-    if (!response.ok) {
-        console.error('Error sending message');
-        return;
-    }
+      if (!response.ok) {
+        throw new Error('Error sending message');
+      }
 
-    // Fetch AI response from the server
-    const aiResponse = await fetch('/api/messagerequest');
-    const result = await aiResponse.json();
-    console.log(result);
+      // Fetch AI response from the server
+      const result = await response.json();
+      const aiResponseMessage: Message = { id: Date.now() + 1, role: 'assistant', content: result.response };
 
-    if (aiResponse.ok) {
-        // Add AI response to the chat
-        setMessages([...messages, { id: Date.now(), role: 'user', content: message }, { id: Date.now() + 1, role: 'assistant', content: result.message }]);
-    } else {
-        console.error('Error fetching AI response:', result.error);
+      // Add AI response to the chat
+      setMessages((prevMessages) => [...prevMessages, aiResponseMessage]);
+    } catch (error) {
+      console.error('Error fetching AI response:', error);
     }
 
     setMessage(''); // Clear the input field

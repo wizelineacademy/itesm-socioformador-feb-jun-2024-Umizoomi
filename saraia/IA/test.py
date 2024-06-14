@@ -62,7 +62,7 @@ def add_new_feedback(user_id, team_id, thread_id):
         connection = connect_to_db()
         cursor = connection.cursor()
         insert_query = """
-        INSERT INTO feedback (id_user, id_team, performance, well_being, flow, communication, proactivity, collaboration, efficiency, satisfaction, thread_id)
+        INSERT INTO feedback (id_user, id_team, "Performance", well_being, flow, communication, activity, collaboration, efficiency, satisfaction, thread_id)
         VALUES (%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, %s);
         """
         cursor.execute(insert_query, (user_id, team_id, thread_id))
@@ -145,7 +145,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
             )
             response = ""
             for message in reversed(messages.data):
-                response = "Sara" + ':' + message.content[0].text.value
+                response = message.content[0].text.value
             print(response)
             add_new_ai_message(response, user_id, team_id)
             metrics = {}
@@ -163,7 +163,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
 
             #     add_feedback_to_profile(user_id, metrics)
 
-            if "Self-Evaluation" in response:
+            if "###" in response and "Adrian" in response and 'Metrics' in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -175,9 +175,10 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                update_profile_in_db(user_id, metrics)
+                add_feedback_to_profile(1, metrics)
+                print("Adrian feedback added")
 
-            if "provided for Adrian" in response:
+            if "###" in response and "Carlos" in response and 'Metrics' in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -189,9 +190,11 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                update_profile_in_db(1, metrics)
+                add_feedback_to_profile(3, metrics)
+                print("Carlos feedback added")
 
-            if "provided for Carlos" in response:
+
+            if "###" in response and "Oscar" in response and 'Metrics' in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -203,9 +206,11 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                update_profile_in_db(3, metrics)
+                add_feedback_to_profile(15, metrics)
+                print("Oscar feedback added")
 
-            if "provided for Oscar" in response:
+
+            if "###" in response and "Luis" in response and 'Metrics' in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -217,9 +222,11 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                update_profile_in_db(15, metrics)
+                add_feedback_to_profile(5, metrics)
+                print("Luis feedback added")
 
-            if "provided for Luis" in response:
+
+            if "###" in response and "Kraken" in response and 'Metrics' in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -231,28 +238,17 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                update_profile_in_db(5, metrics)
+                add_feedback_to_profile(16, metrics)
+                print("Kraken feedback added")
 
-            if "provided for Kraken" in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
-
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
-
-                update_profile_in_db(16, metrics)
-            
+            return response
         else:
             print("Run status: ", run.status)
             return "AI response is not ready yet"
     except Exception as e:
         print(f"Error in thread_process: {e}")
-        return f"Error: {e}"
+        return
+        # return f"Error: {e}"
 
 # Function to update profile in the database
 def update_profile_in_db(user_id, profile):
@@ -261,12 +257,12 @@ def update_profile_in_db(user_id, profile):
         cursor = connection.cursor()
         update_query = """
         UPDATE feedback
-        SET performance = %s, well_being = %s, flow = %s, communication = %s, activity = %s,
+        SET "Performance" = %s, well_being = %s, flow = %s, communication = %s, activity = %s,
             collaboration = %s, efficiency = %s, satisfaction = %s
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
-            int(sum(profile['performance']) / len(profile['performance'])) if profile['performance'] else 0,
+            int(sum(profile['"Performance"']) / len(profile['"Performance"'])) if profile['"Performance"'] else 0,
             int(sum(profile['well_being']) / len(profile['well_being'])) if profile['well_being'] else 0,
             int(sum(profile['flow']) / len(profile['flow'])) if profile['flow'] else 0,
             int(sum(profile['communication']) / len(profile['communication'])) if profile['communication'] else 0,
@@ -287,7 +283,7 @@ def update_profile_in_db(user_id, profile):
 def get_or_create_profile(user_id):
     if user_id not in profiles:
         profiles[user_id] = {
-            "performance": [],
+            "Performance": [],
             "well_being": [],
             "flow": [],
             "communication": [],
