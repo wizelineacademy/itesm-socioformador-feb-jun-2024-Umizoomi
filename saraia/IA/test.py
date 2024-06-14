@@ -163,7 +163,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
 
             #     add_feedback_to_profile(user_id, metrics)
 
-            if "### Your Self-Evaluation" in response:
+            if "Self-Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -177,7 +177,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
 
                 update_profile_in_db(1, metrics)
 
-            if "### Carlos's Evaluation" in response:
+            if "provided for Carlos" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -191,7 +191,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
 
                 update_profile_in_db(3, metrics)
 
-            if "### Oscar's Evaluation" in response:
+            if "provided for Oscar" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -205,7 +205,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
 
                 update_profile_in_db(15, metrics)
 
-            if "### Luis's Evaluation" in response:
+            if "provided for Luis" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -219,7 +219,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
 
                 update_profile_in_db(5, metrics)
 
-            if "### Kraken's Evaluation" in response:
+            if "provided for Kraken" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
