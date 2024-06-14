@@ -6,7 +6,6 @@ import { users, team, userteamposition } from "@/lib/schema";
 
 export async function GET(request: NextRequest) {
     try {
-
         const teamId = request.nextUrl.searchParams.get("teamid");
 
         if (!teamId || isNaN(Number(teamId))) {

@@ -5,6 +5,7 @@ import { ScrollArea } from "./ui/scroll-area"
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar"
 import { SendHorizontalIcon } from 'lucide-react'
 import { useState, useEffect } from "react"
+import { useSearchParams } from 'next/navigation';
 
 export default function Chat() {
   const [message, setMessage] = useState('');
@@ -17,6 +18,9 @@ export default function Chat() {
     role: 'system' | 'user' | 'assistant';
     content: string;
   }
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('userId');
+  const teamId = searchParams.get('teamId');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,8 +38,8 @@ export default function Chat() {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
-          user_id: 'e70826d5-eceb-4eb7-b48e-1fbca900128a', // Replace with actual user ID
-          team_id: '36', // Replace with actual team ID
+          user_id: userId as string,
+          team_id: teamId as string, 
           message,
         }),
       });
@@ -44,17 +48,15 @@ export default function Chat() {
         throw new Error('Error sending message');
       }
 
-      // Fetch AI response from the server
       const result = await response.json();
       const aiResponseMessage: Message = { id: Date.now() + 1, role: 'assistant', content: result.response };
 
-      // Add AI response to the chat
       setMessages((prevMessages) => [...prevMessages, aiResponseMessage]);
     } catch (error) {
       console.error('Error fetching AI response:', error);
     }
 
-    setMessage(''); // Clear the input field
+    setMessage(''); 
   };
 
   return (

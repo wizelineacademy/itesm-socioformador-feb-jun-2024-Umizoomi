@@ -20,6 +20,7 @@ type UserTeamsProps = {
  
 
 const API_URL = '/api/teammates';
+const USER_ID_API_URL = '/api/getSessionId';
 
 async function getData(teamId: number): Promise<Miembro[]> {
   try {
@@ -34,9 +35,27 @@ async function getData(teamId: number): Promise<Miembro[]> {
     return [];
   }
 }
+
+async function getUserId(): Promise<string | null> {
+  try {
+    const response = await fetch(USER_ID_API_URL);
+    if (!response.ok) {
+      throw new Error('Failed to fetch user ID');
+    }
+    const data = await response.json();
+    return data.userId;
+  } catch (error) {
+    console.error('Error fetching user ID:', error);
+    return null;
+  }
+}
+
+
 export default function Teams({ params }: { params: { teamId: number } }) {
   
   const [tabledata, setTableData] = useState<Miembro[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchData = async () => {
       const fetchedData = await getData(params.teamId);
@@ -44,6 +63,14 @@ export default function Teams({ params }: { params: { teamId: number } }) {
     };
     fetchData();
   }, [params.teamId]);
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await getUserId();
+      setUserId(id);
+    };
+    fetchUserId();
+  }, []);
+
   return (
     <div id="container" className="flex">
       <Sidebar />
@@ -58,7 +85,7 @@ export default function Teams({ params }: { params: { teamId: number } }) {
         <Link
             href={{
               pathname: '/chat',
-              query: { userId: session?.user?.id as string , teamId: params.teamId},
+              query: { userId: userId as string , teamId: params.teamId},
             }}
           >
             Talk to Sara
