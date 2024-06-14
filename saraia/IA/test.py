@@ -163,7 +163,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
 
             #     add_feedback_to_profile(user_id, metrics)
 
-            if "###" in response and "Adrian" in response and 'Metrics' in response:
+            if "Self-Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -175,10 +175,11 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(1, metrics)
+                update_profile_in_db(user_id, metrics)
+                # add_feedback_to_profile(1, metrics)
                 print("Adrian feedback added")
 
-            if "###" in response and "Carlos" in response and 'Metrics' in response:
+            if "provided for Adrian" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -190,11 +191,29 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(3, metrics)
+                # add_feedback_to_profile(3, metrics)
+                update_profile_in_db(1, metrics)
+                print("Adrian feedback added")
+            
+
+            if "provided for Carlos" in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
+                update_profile_in_db(3, metrics)
                 print("Carlos feedback added")
 
 
-            if "###" in response and "Oscar" in response and 'Metrics' in response:
+
+            if "provided for Oscar" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -206,11 +225,12 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(15, metrics)
+                # add_feedback_to_profile(15, metrics)
+                update_profile_in_db(15, metrics)
                 print("Oscar feedback added")
 
 
-            if "###" in response and "Luis" in response and 'Metrics' in response:
+            if "provided for Luis" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -222,11 +242,12 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(5, metrics)
+                # add_feedback_to_profile(5, metrics)
+                update_profile_in_db(5, metrics)
                 print("Luis feedback added")
 
 
-            if "###" in response and "Kraken" in response and 'Metrics' in response:
+            if "provided for Kraken" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
                 for match in matches:
@@ -238,7 +259,8 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
-                add_feedback_to_profile(16, metrics)
+                # add_feedback_to_profile(16, metrics)
+                update_profile_in_db(16, metrics)
                 print("Kraken feedback added")
 
             return response
@@ -262,7 +284,7 @@ def update_profile_in_db(user_id, profile):
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
-            int(sum(profile['"Performance"']) / len(profile['"Performance"'])) if profile['"Performance"'] else 0,
+            int(sum(profile['Performance']) / len(profile['Performance'])) if profile['Performance'] else 0,
             int(sum(profile['well_being']) / len(profile['well_being'])) if profile['well_being'] else 0,
             int(sum(profile['flow']) / len(profile['flow'])) if profile['flow'] else 0,
             int(sum(profile['communication']) / len(profile['communication'])) if profile['communication'] else 0,
