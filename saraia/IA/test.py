@@ -175,6 +175,20 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 for metric, value in metrics.items():
                     print(f"{metric}: {value}")
 
+                update_profile_in_db(user_id, metrics)
+
+            if "provided for Adrian" in response:
+                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    low, high = int(match[1]), int(match[2])
+                    average = (low + high) / 2
+                    metrics[metric_name] = average
+
+                for metric, value in metrics.items():
+                    print(f"{metric}: {value}")
+
                 update_profile_in_db(1, metrics)
 
             if "provided for Carlos" in response:
