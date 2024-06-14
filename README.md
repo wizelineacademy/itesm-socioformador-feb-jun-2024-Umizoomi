@@ -39,6 +39,7 @@ Velocidad total de los sprints: https://docs.google.com/spreadsheets/d/1fff-wgCb
 # Funcionalidad y presentación:
 
 ## Video de la funcionalidad de la aplicación
+https://drive.google.com/file/d/1si3qUHm5WKuMLVH4U6e5Kpr4xnboRyZa/view?usp=sharing
 
 ## Presentación final
 https://www.canva.com/design/DAGHMG4f-f8/0Nltq0j1lT6wFYtuqkt2NQ/edit?utm_content=DAGHMG4f-f8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
