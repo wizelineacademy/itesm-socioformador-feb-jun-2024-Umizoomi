@@ -34,8 +34,8 @@ export default function Chat() {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
-          user_id: '16', // Replace with actual user ID
-          team_id: '21', // Replace with actual team ID
+          user_id: '8aeb8834-04d4-4095-a0bf-56041e4093f7', // Replace with actual user ID
+          team_id: '36', // Replace with actual team ID
           message,
         }),
       });

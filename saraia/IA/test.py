@@ -31,20 +31,7 @@ def connect_to_db():
         print(f"Error connecting to the database: {e}")
         return None
 
-# Function to get the email from the user_id
-def get_email_user_id(user_id):
-    try:
-        connection = connect_to_db()
-        cursor = connection.cursor()
-        query = "SELECT email FROM users WHERE id_user = %s;"
-        cursor.execute(query, (user_id,))
-        result = cursor.fetchone()
-        cursor.close()
-        connection.close()
-        return result
-    except Exception as e:
-        print(f"Error in get_email_user_id: {e}")
-        return None
+
 
 # Function to create a new thread using OpenAI's API
 def create_new_thread():
@@ -62,7 +49,7 @@ def add_new_feedback(user_id, team_id, thread_id):
         connection = connect_to_db()
         cursor = connection.cursor()
         insert_query = """
-        INSERT INTO feedback (id_user, id_team, performance, well_being, flow, communication, activity, collaboration, efficiency, satisfaction, thread_id)
+        INSERT INTO feedback (id_user, id_team, "Performance", well_being, flow, communication, activity, collaboration, efficiency, satisfaction, thread_id)
         VALUES (%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, %s);
         """
         cursor.execute(insert_query, (user_id, team_id, thread_id))
@@ -149,19 +136,6 @@ def thread_process(user_id, user_thread_id, message, team_id):
             print(response)
             add_new_ai_message(response, user_id, team_id)
             metrics = {}
-            # if "###" in response or 'Metrics' in response:
-            #     pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-            #     matches = pattern.findall(response)
-            #     for match in matches:
-            #         metric_name = match[0].strip().lower().replace(" ", "_")
-            #         low, high = int(match[1]), int(match[2])
-            #         average = (low + high) / 2
-            #         metrics[metric_name] = average
-
-            #     for metric, value in metrics.items():
-            #         print(f"{metric}: {value}")
-
-            #     add_feedback_to_profile(user_id, metrics)
 
             if "Self-Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
@@ -260,7 +234,7 @@ def thread_process(user_id, user_thread_id, message, team_id):
                     print(f"{metric}: {value}")
 
                 # add_feedback_to_profile(16, metrics)
-                update_profile_in_db(16, metrics)
+                update_profile_in_db('8aeb8834-04d4-4095-a0bf-56041e4093f7', metrics)
                 print("Kraken feedback added")
 
             return response
@@ -279,12 +253,12 @@ def update_profile_in_db(user_id, profile):
         cursor = connection.cursor()
         update_query = """
         UPDATE feedback
-        SET performance = %s, well_being = %s, flow = %s, communication = %s, activity = %s,
+        SET "Performance" = %s, well_being = %s, flow = %s, communication = %s, activity = %s,
             collaboration = %s, efficiency = %s, satisfaction = %s
         WHERE id_user = %s;
         """
         cursor.execute(update_query, (
-            int(sum(profile['performance']) / len(profile['performance'])) if profile['performance'] else 0,
+            int(sum(profile['Performance']) / len(profile['Performance'])) if profile['Performance'] else 0,
             int(sum(profile['well_being']) / len(profile['well_being'])) if profile['well_being'] else 0,
             int(sum(profile['flow']) / len(profile['flow'])) if profile['flow'] else 0,
             int(sum(profile['communication']) / len(profile['communication'])) if profile['communication'] else 0,
@@ -305,7 +279,7 @@ def update_profile_in_db(user_id, profile):
 def get_or_create_profile(user_id):
     if user_id not in profiles:
         profiles[user_id] = {
-            "performance": [],
+            "Performance": [],
             "well_being": [],
             "flow": [],
             "communication": [],
@@ -358,7 +332,7 @@ def get_ai_response():
     if not user_id or not team_id or not message:
         return jsonify({"error": "Missing user_id, team_id, or message"})
 
-    chatbot = Sara(int(team_id), int(user_id))
+    chatbot = Sara(int(team_id), (user_id))
     add_new_user_message(message, user_id, team_id)
     response = chatbot.run(message)
     return jsonify({"response": response})
