@@ -1,31 +1,33 @@
+"use client"
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { db } from '@/lib/db';
-import { users } from '@/lib/schema';
-import { eq } from 'drizzle-orm';
-import { auth } from '@/auth/auth';
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
-
-export default async function Form() {
-
+export default function Form() {
   const [username, setUsername] = useState('');
-  const session = await auth();
+  const router = useRouter();
 
   const handleSubmit = async (event : any) => {
     event.preventDefault();
 
     try {
-        if (session?.user?.id) {
-            await db.update(users)
-              .set({ name: username })
-              .where(eq(users.id, session.user.id));
-        }
-        redirect('/dashboard')
+      const response = await fetch('/api/updateuser', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username }),
+      });
+
+      if (response.ok) {
+        router.push('/dashboard');
+      } else {
+        console.error('Failed to update username');
+      }
     } catch (error) {
-      console.error('Error creating user:', error);
+      console.error('Error updating username:', error);
     }
   };
 

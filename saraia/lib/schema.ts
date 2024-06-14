@@ -15,7 +15,7 @@ import {
 
 export const admins = pgTable("admins", {
 	idAdmin: serial("id_admin").primaryKey().notNull(),
-	idUser: integer("id_user"),
+	idUser: text("id_user"),
 });
 
 export const jobtitles = pgTable("jobtitles", {
@@ -31,7 +31,6 @@ export const users = pgTable("user", {
 	email: text("email").notNull(),
 	emailVerified: timestamp("emailVerified", { mode: "date" }),
 	image: text("image"),
-	password: text("password").notNull()
   })
   export const accounts = pgTable(
 	"account",
@@ -111,7 +110,7 @@ export const team = pgTable("team", {
 
 export const userteamposition = pgTable("userteamposition", {
 	idUstepo: serial("id_ustepo").primaryKey().notNull(),
-	idUser: integer("id_user"),
+	idUser: text("id_user"),
 	idTeam: integer("id_team"),
 	idJobtitle: integer("id_jobtitle").references(() => jobtitles.idJobtitle),
 });
@@ -127,7 +126,7 @@ export const feedback = pgTable("feedback", {
 	efficiency: integer("efficiency"),
 	satisfaction: integer("satisfaction"),
 	threadId: varchar("thread_id", { length: 64 }),
-	idUser: integer("id_user"),
+	idUser: text("id_user"),
 	idTeam: integer("id_team"),
 	feedbackTime: timestamp("feedback_time", { mode: 'string' }),
 });
@@ -136,7 +135,7 @@ export const messages = pgTable("messages", {
 	idMessage: serial("id_message").primaryKey().notNull(),
 	message: varchar("message", { length: 9999 }),
 	messagedate: timestamp("messagedate", { withTimezone: true, mode: 'string' }).defaultNow(),
-	idUser: integer("id_user"),
+	idUser: text("id_user"),
 	idTeam: integer("id_team"),
 	email: varchar("email", { length: 320 }),
 	threadId: varchar("thread_id", { length: 64 }),
@@ -146,7 +145,7 @@ export const userMessages = pgTable("user_messages", {
 	idUsermessage: serial("id_usermessage").primaryKey().notNull(),
 	message: varchar("message", { length: 9999 }),
 	messagedate: timestamp("messagedate", { withTimezone: true, mode: 'string' }).defaultNow(),
-	idUser: integer("id_user"),
+	idUser: text("id_user"),
 	idTeam: integer("id_team"),
 	email: varchar("email", { length: 320 }),
 	threadId: varchar("thread_id", { length: 64 }),

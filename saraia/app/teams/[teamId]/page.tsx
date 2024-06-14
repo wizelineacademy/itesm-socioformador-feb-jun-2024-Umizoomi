@@ -4,6 +4,7 @@ import { Miembro, columns } from "./columns";
 import { DataTable } from "./data-table";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { useEffect, useState } from 'react';
+import AddNewMember from "@/components/AddNewMember";
 
 type TeamName = {
   teamName: string;
@@ -44,7 +45,11 @@ export default function Teams({ params }: { params: { teamId: number } }) {
     <div id="container" className="flex">
       <Sidebar />
       <div className="flex-col flex gap-10 my-5 mx-10 flex-1">
-        <h1 className="text-3xl font-sans font-bold">Team Details</h1>
+        <div className="flex justify-between">
+          <h1 className="text-3xl font-sans font-bold">Team Details</h1>
+          <AddNewMember />
+        </div>
+        
         <DataTable columns={columns} data={tabledata} />
       </div>
     </div>

@@ -2,19 +2,17 @@ import { NextResponse, NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { team, userteamposition } from "@/lib/schema";
+import { auth } from "@/auth/auth";
 
 export async function GET(request: NextRequest) {
     try {
         // Get the userId from the query parameters
-        const userId = request.nextUrl.searchParams.get("userId");
-
+        const session = await auth();
         // Ensure userId is a valid number
-        if (!userId || isNaN(Number(userId))) {
-            return NextResponse.json({ error: "Invalid or missing userId" }, { status: 400 });
-        }
+
 
         // Convert userId to a number
-        const userIdNumber = Number(userId);
+        const userId = session?.user?.id as string;
 
         // Perform the database query
         const teamNames = await db
@@ -24,7 +22,7 @@ export async function GET(request: NextRequest) {
           })
             .from(team)
             .innerJoin(userteamposition, eq(userteamposition.idTeam, team.idTeam))
-            .where(eq(userteamposition.idUser, userIdNumber));
+            .where(eq(userteamposition.idUser, userId));
 
         // Return the results as a JSON response
         return NextResponse.json(teamNames);

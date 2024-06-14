@@ -24,10 +24,40 @@ export type Miembro = {
   position: string
   date: Date
 }
+const handleDeleteMember = async (userId: any) => {
+  try {
+    console.log(userId);
+    const response = await fetch("/api/removeuser", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete team member");
+    }
+
+    // Handle success as needed (e.g., refresh data)
+    // Example: Reload data after deletion
+    window.location.reload(); // Replace with more sophisticated handling if needed
+
+  } catch (error) {
+    console.error("Error deleting team member:", error);
+    // Handle error state if necessary
+  }
+};
+
+
 
 export const columns: ColumnDef<Miembro>[] = [
     {
-        accessorKey: "username",
+      accessorKey: "id_user",
+      header: "Id",
+    },
+    {
+        accessorKey: "name",
         header: "Name",
       },
       {
@@ -46,7 +76,7 @@ export const columns: ColumnDef<Miembro>[] = [
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-          const payment = row.original
+          const id = row.getValue("id_user");
      
           return (
             <DropdownMenu>
@@ -59,9 +89,9 @@ export const columns: ColumnDef<Miembro>[] = [
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem>Remove</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Edit member</DropdownMenuItem>
+                <DropdownMenuItem >
+                <Button variant="ghost" onClick={() => handleDeleteMember(id)}>Remove </Button>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )
