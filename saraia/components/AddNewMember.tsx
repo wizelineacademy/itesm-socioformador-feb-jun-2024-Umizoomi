@@ -63,24 +63,26 @@ export default function AddNewMember({ teamId }: AddNewMemberProps) {
 
   const handleAddMember = async (userId: string) => {
     try {
-      const response = await fetch("/api/addmember", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ teamId, userId }),
-      });
+        const response = await fetch('/api/addmember', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ teamId, userId }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to add team member");
-      }
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to add team member');
+        }
 
-      window.location.reload(); // Replace with more sophisticated handling if needed
-
+        // Handle success as needed (e.g., refresh data)
+        window.location.reload(); // Replace with more sophisticated handling if needed
     } catch (error) {
-      console.error("Error adding team member:", error);
+        console.error('Error adding team member:', error);
+        // Handle error state if necessary
     }
-  };
+};
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

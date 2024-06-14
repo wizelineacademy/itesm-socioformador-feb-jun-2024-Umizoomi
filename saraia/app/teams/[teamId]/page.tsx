@@ -47,7 +47,7 @@ export default function Teams({ params }: { params: { teamId: number } }) {
       <div className="flex-col flex gap-10 my-5 mx-10 flex-1">
         <div className="flex justify-between">
           <h1 className="text-3xl font-sans font-bold">Team Details</h1>
-          <AddNewMember />
+          <AddNewMember teamId={params.teamId} />
         </div>
         
         <DataTable columns={columns} data={tabledata} />
