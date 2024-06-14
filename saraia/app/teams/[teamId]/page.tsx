@@ -1,10 +1,13 @@
 "use client";
-
+import { Button } from "@/components/ui/button";
 import { Miembro, columns } from "./columns";
 import { DataTable } from "./data-table";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { useEffect, useState } from 'react';
 import AddNewMember from "@/components/AddNewMember";
+import Link from 'next/link'
+import { auth } from "@/auth/auth";
+import { useSession } from "next-auth/react";
 
 type TeamName = {
   teamName: string;
@@ -13,6 +16,8 @@ type TeamName = {
 type UserTeamsProps = {
   initialTeamNames: TeamName[];
 };
+
+ 
 
 const API_URL = '/api/teammates';
 
@@ -29,10 +34,9 @@ async function getData(teamId: number): Promise<Miembro[]> {
     return [];
   }
 }
-
 export default function Teams({ params }: { params: { teamId: number } }) {
+  
   const [tabledata, setTableData] = useState<Miembro[]>([]);
-
   useEffect(() => {
     const fetchData = async () => {
       const fetchedData = await getData(params.teamId);
@@ -40,7 +44,6 @@ export default function Teams({ params }: { params: { teamId: number } }) {
     };
     fetchData();
   }, [params.teamId]);
-
   return (
     <div id="container" className="flex">
       <Sidebar />
@@ -51,6 +54,18 @@ export default function Teams({ params }: { params: { teamId: number } }) {
         </div>
         
         <DataTable columns={columns} data={tabledata} />
+        <Button asChild>
+        <Link
+            href={{
+              pathname: '/chat',
+              query: { userId: session?.user?.id as string , teamId: params.teamId},
+            }}
+          >
+            Talk to Sara
+          </Link>
+        </Button>
+
+
       </div>
     </div>
   );

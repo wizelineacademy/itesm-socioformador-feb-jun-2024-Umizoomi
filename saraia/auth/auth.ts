@@ -15,7 +15,8 @@ loadEnvConfig(projectDir);
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
     adapter: DrizzleAdapter(db),
-    pages: {newUser: "/signup"},
+    pages: {newUser: "/signup",
+    },
     providers:[Resend({
         apiKey: process.env.AUTH_RESEND_KEY,
         from: "sara@saraai.xyz",
