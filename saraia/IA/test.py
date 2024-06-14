@@ -100,7 +100,7 @@ def add_new_user_message(response, user_id, team_id):
         connection.commit()
         cursor.close()
         connection.close()
-        print("New message added.")
+        print("New user message added.")
     except Exception as e:
         print(f"Error in add_new_user_message: {e}")
 
@@ -337,6 +337,7 @@ def get_ai_response():
         return jsonify({"error": "Missing user_id, team_id, or message"})
 
     chatbot = Sara(int(team_id), int(user_id))
+    add_new_user_message(message, user_id, team_id)
     response = chatbot.run(message)
     return jsonify({"response": response})
 
