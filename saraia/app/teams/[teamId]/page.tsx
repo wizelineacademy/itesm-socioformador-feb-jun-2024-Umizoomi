@@ -6,16 +6,13 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import { useEffect, useState } from 'react';
 import AddNewMember from "@/components/AddNewMember";
 import Link from 'next/link'
-import { auth } from "@/auth/auth";
-import { useSession } from "next-auth/react";
+
 
 type TeamName = {
   teamName: string;
 };
 
-type UserTeamsProps = {
-  initialTeamNames: TeamName[];
-};
+
 
  
 
@@ -29,7 +26,7 @@ async function getData(teamId: number): Promise<Miembro[]> {
       throw new Error('Failed to fetch data');
     }
     const data = await response.json();
-    return data.rows; // Extract and return only the rows array
+    return data.rows;
   } catch (error) {
     console.error('Error fetching data:', error);
     return [];

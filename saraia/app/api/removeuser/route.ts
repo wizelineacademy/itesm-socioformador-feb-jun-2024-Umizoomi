@@ -3,10 +3,7 @@
  
 import { NextResponse, NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { team, userteamposition } from "@/lib/schema";
-import { getToken } from "next-auth/jwt";
-import { eq, sql } from "drizzle-orm";
-import { auth } from "@/auth/auth";
+import {sql } from "drizzle-orm";
 
 export async function DELETE(request: NextRequest) {
     try {

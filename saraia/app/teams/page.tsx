@@ -49,7 +49,6 @@ export default function Teams() {
   }, [session?.user?.id]);
   
 
-  if (status === "authenticated") {
     return (
       <div  id="container" className="flex ">
           <Sidebar />
@@ -65,8 +64,7 @@ export default function Teams() {
   
   
     )
-  }
-  return <a href="/api/auth/signin">Sign in</a>
+
 
  
 }

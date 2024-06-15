@@ -18,7 +18,7 @@ export default function CreateTeamModal() {
 
   const [teamName, setTeamName] = useState('');
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     if (!teamName) {
