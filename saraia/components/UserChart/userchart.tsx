@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useState, useEffect } from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 
@@ -28,20 +28,19 @@ const UserFeedbackChart = () => {
     useEffect(() => {
         fetchUserData()
             .then(data => {
-                setData(data); // Update state with fetched data
+                setData(data); 
             })
             .catch(error => {
                 console.error('Error fetching user data:', error);
-                setData(null); // Set data to null on error
+                setData(null);
             });
     }, []);
 
     if (!data) {
-        return <div>Loading...</div>; // Show loading state while fetching data
+        return <div>Loading...</div>;
     }
     console.log(data);
 
-    // Transform data into array of objects with 'subject' and 'A' keys
     const formattedData = [
         { subject: 'Well-Being', A: data.wellBeing },
         { subject: 'Flow', A: data.flow },
