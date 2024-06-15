@@ -4,6 +4,8 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   VERCEL_TOKEN: ${{ secrets.SARA }}
   POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+  AUTH_GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  AUTH_GITHUB_SECRET: ${{secrets.AUTH_GITHUB_SECRET}}
 on:
   push:
     branches: main
