@@ -1,52 +1,67 @@
-import React, { PureComponent } from 'react';
+"use client";
+import { useState, useEffect } from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 
-const data = [
-  {
-    subject: 'Well-Being',
-    A: 120,
-  },
-  {
-    subject: 'Flow',
-    A: 98,
+type FeedbackData = {
+    activity: number;
+    collaboration: number;
+    communication: number;
+    efficiency: number;
+    flow: number;
+    performance: number;
+    satisfaction: number;
+    wellBeing: number;
+};
 
-  },
-  {
-    subject: 'Communication',
-    A: 86,
+const fetchUserData = async (): Promise<FeedbackData> => {
+    const response = await fetch(`/api/userfeedback`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch user feedback');
+    }
 
-  },
-  {
-    subject: 'Proactivity',
-    A: 99,
+    return await response.json();
+};
 
-  },
-  {
-    subject: 'Collaboration',
-    A: 85,
-  },
-  {
-    subject: 'Satisfaction',
-    A: 85,
-  },
-  {
-    subject: 'Efficiency',
-    A: 65,
-  },
-];
+const UserFeedbackChart = () => {
+    const [data, setData] = useState<FeedbackData | null>(null);
 
-export default class Example extends PureComponent {
+    useEffect(() => {
+        fetchUserData()
+            .then(data => {
+                setData(data); // Update state with fetched data
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                setData(null); // Set data to null on error
+            });
+    }, []);
 
-  render() {
+    if (!data) {
+        return <div>Loading...</div>; // Show loading state while fetching data
+    }
+    console.log(data);
+
+    // Transform data into array of objects with 'subject' and 'A' keys
+    const formattedData = [
+        { subject: 'Well-Being', A: data.wellBeing },
+        { subject: 'Flow', A: data.flow },
+        { subject: 'Communication', A: data.communication },
+        { subject: 'Proactivity', A: data.activity },
+        { subject: 'Collaboration', A: data.collaboration },
+        { subject: 'Satisfaction', A: data.satisfaction },
+        { subject: 'Efficiency', A: data.efficiency },
+    ];
+
     return (
-      <ResponsiveContainer width="105%" height="100%">
-        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="subject" />
-          <PolarRadiusAxis />
-          <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-        </RadarChart>
-      </ResponsiveContainer>
+        <ResponsiveContainer width="100%" height="100%">
+            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={formattedData}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="subject" />
+                <PolarRadiusAxis />
+                <Radar name="User" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+            </RadarChart>
+        </ResponsiveContainer>
     );
-  }
-}
+};
+
+export default UserFeedbackChart;

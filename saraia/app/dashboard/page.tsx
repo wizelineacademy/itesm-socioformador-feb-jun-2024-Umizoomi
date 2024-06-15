@@ -2,8 +2,7 @@
 
 import Sidebar from "@/components/sidebar/Sidebar";
 import { useSession } from "next-auth/react";
-import Userchart from "@/components/UserChart/userchart";
-
+import UserFeedbackChart from "@/components/UserChart/userchart";
 export default function DashboardPage ()  {
     
     const { data: session, status } = useSession()
@@ -17,7 +16,7 @@ export default function DashboardPage ()  {
                             {`Welcome Back, ${session.user?.name}`}
                         </h1>
                         <h2 className="text-3xl font-bold">My Graph</h2>
-                                <Userchart />
+                        <UserFeedbackChart />
 
                     </div>
             </div>
