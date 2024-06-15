@@ -25,7 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./sara
+        working-directory: ./saraia
 
       #- name: Run tests
       #  run: npm test  
@@ -34,12 +34,20 @@ jobs:
 
       - name: Install Vercel CLI
         run: npm install --global vercel
+        working-directory: ./saraia
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
+        working-directory: ./saraia
+
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ env.VERCEL_TOKEN }}
+        working-directory: ./saraia
+
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ env.VERCEL_TOKEN }}
+        working-directory: ./saraia
 
-      - name: Migrate DB
-        run: pnpm --filter=./web/04-nextjs run db:migrate --config=drizzle-vercel.config.ts
+
+      #- name: Migrate DB
+      #  run: pnpm --filter=./web/04-nextjs run db:migrate --config=drizzle-vercel.config.ts
+      #  working-directory: ./saraia
