@@ -4,10 +4,11 @@ import { Button } from "./ui/button"
 import { ScrollArea } from "./ui/scroll-area"
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar"
 import { SendHorizontalIcon } from 'lucide-react'
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from 'next/navigation';
+export const dynamic = 'force-dynamic';
 
-export default function Chat() {
+function ChatContent() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
     { id: 1, role: 'system', content: 'You are a helpful assistant.' },
@@ -118,4 +119,12 @@ export default function Chat() {
       </div>
     </section>
   )
+}
+
+export default function Chat() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ChatContent />
+    </Suspense>
+  );
 }

@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { sql } from "drizzle-orm";
 import { users, team, userteamposition } from "@/lib/schema";
-
+export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
     try {
         const teamId = request.nextUrl.searchParams.get("teamid");

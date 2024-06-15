@@ -36,7 +36,7 @@ async function getData(userId : string): Promise<Projecto[]> {
 
 export default function Teams() {
   const { data: session, status } = useSession();
-  const userId = session?.user.id;
+  const userId = session?.user?.id;
 
   const [tabledata, setTableData] = useState<Projecto[]>([]);
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Teams() {
       setTableData(fetchedData);
     };
     fetchData();
-  }, [session?.user.id]);
+  }, [session?.user?.id]);
   
 
   if (status === "authenticated") {

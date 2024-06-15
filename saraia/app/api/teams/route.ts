@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { team, userteamposition } from "@/lib/schema";
 import { auth } from "@/auth/auth";
-
+export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
     try {
         // Get the userId from the query parameters

@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@/auth/auth";
-
+export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
     try {
         // Authenticate the user
