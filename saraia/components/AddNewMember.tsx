@@ -76,11 +76,9 @@ export default function AddNewMember({ teamId }: AddNewMemberProps) {
             throw new Error(errorData.error || 'Failed to add team member');
         }
 
-        // Handle success as needed (e.g., refresh data)
-        window.location.reload(); // Replace with more sophisticated handling if needed
+        window.location.reload(); 
     } catch (error) {
         console.error('Error adding team member:', error);
-        // Handle error state if necessary
     }
 };
 

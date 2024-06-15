@@ -26,12 +26,10 @@ export default function Chat() {
     event.preventDefault();
     if (!message.trim()) return;
 
-    // Add user message to the chat
     const newMessage: Message = { id: Date.now(), role: 'user', content: message };
     setMessages([...messages, newMessage]);
 
     try {
-      // Send user message to the Flask server
       const response = await fetch('http://localhost:5000/get_ai_response', {
         method: 'POST',
         headers: {
