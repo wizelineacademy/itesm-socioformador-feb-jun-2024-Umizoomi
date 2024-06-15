@@ -1,79 +1,96 @@
+import '@testing-library/jest-dom';
 import React from 'react';
-import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect'; // Importante para los matchers de jest-dom
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-
-
-global.fetch = jest.fn();
+import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar';
 
 describe('Avatar Component Tests', () => {
-  // Prueba 1
+  // Prueba 1: Renderización del Avatar sin errores
   test('Avatar renders without crashing', () => {
     render(<Avatar />);
-    expect(screen.getByRole('img')).toBeInTheDocument();
+    const avatarElement = screen.getByRole('img');
+    expect(avatarElement).toBeInTheDocument();
   });
 
-  // Prueba 2
-  test('Avatar applies custom className', () => {
-    render(<Avatar className="custom-avatar" />);
-    const avatar = screen.getByRole('img');
-    expect(avatar).toHaveClass('custom-avatar');
-  });
-
-  // Prueba 3
-  test('AvatarImage renders without crashing', () => {
-    render(<AvatarImage src="avatar.jpg" alt="Avatar" />);
-    expect(screen.getByAltText('Avatar')).toBeInTheDocument();
-  });
-
-  // Prueba 4
-  test('AvatarImage applies custom className', () => {
-    render(<AvatarImage src="avatar.jpg" alt="Avatar" className="custom-image" />);
-    const image = screen.getByAltText('Avatar');
-    expect(image).toHaveClass('custom-image');
-  });
-
-  // Prueba 5
-  test('AvatarFallback renders without crashing', () => {
-    render(<AvatarFallback>Fallback Content</AvatarFallback>);
-    expect(screen.getByText('Fallback Content')).toBeInTheDocument();
-  });
-
-  // Prueba 6
-  test('AvatarFallback applies custom className', () => {
-    render(<AvatarFallback className="custom-fallback">Fallback Content</AvatarFallback>);
-    const fallback = screen.getByText('Fallback Content');
-    expect(fallback).toHaveClass('custom-fallback');
-  });
-
-  // Prueba 7
-  test('Avatar renders with default size', () => {
+  // Prueba 2: Verificación de la clase principal del Avatar
+  test('Avatar renders with correct base class', () => {
     render(<Avatar />);
-    const avatar = screen.getByRole('img');
-    expect(avatar).toHaveStyle('height: 10px');
-    expect(avatar).toHaveStyle('width: 10px');
+    const avatarElement = screen.getByRole('img');
+    expect(avatarElement).toHaveClass('relative');
+    expect(avatarElement).toHaveClass('flex');
+    expect(avatarElement).toHaveClass('h-10');
+    expect(avatarElement).toHaveClass('w-10');
+    expect(avatarElement).toHaveClass('shrink-0');
+    expect(avatarElement).toHaveClass('overflow-hidden');
+    expect(avatarElement).toHaveClass('rounded-full');
   });
 
-  // Prueba 8
-  test('Avatar renders with custom size', () => {
-    render(<Avatar style={{ height: '20px', width: '20px' }} />);
-    const avatar = screen.getByRole('img');
-    expect(avatar).toHaveStyle('height: 20px');
-    expect(avatar).toHaveStyle('width: 20px');
+  // Prueba 3: Renderización del AvatarImage
+  test('AvatarImage renders correctly', () => {
+    render(<Avatar><AvatarImage src="/avatar.jpg" alt="Avatar" /></Avatar>);
+    const avatarImage = screen.getByRole('img');
+    expect(avatarImage).toBeInTheDocument();
+    expect(avatarImage).toHaveClass('aspect-square');
+    expect(avatarImage).toHaveClass('h-full');
+    expect(avatarImage).toHaveClass('w-full');
   });
 
-  // Prueba 9
-  test('AvatarFallback renders with default background color', () => {
-    render(<AvatarFallback />);
-    const fallback = screen.getByTestId('avatar-fallback');
-    expect(fallback).toHaveClass('bg-muted');
+  // Prueba 4: Renderización del AvatarFallback
+  test('AvatarFallback renders correctly', () => {
+    render(<Avatar><AvatarFallback /></Avatar>);
+    const avatarFallback = screen.getByTestId('avatar-fallback');
+    expect(avatarFallback).toBeInTheDocument();
+    expect(avatarFallback).toHaveClass('flex');
+    expect(avatarFallback).toHaveClass('h-full');
+    expect(avatarFallback).toHaveClass('w-full');
+    expect(avatarFallback).toHaveClass('items-center');
+    expect(avatarFallback).toHaveClass('justify-center');
+    expect(avatarFallback).toHaveClass('rounded-full');
+    expect(avatarFallback).toHaveClass('bg-muted');
   });
 
-  // Prueba 10
-  test('AvatarFallback renders with custom background color', () => {
-    render(<AvatarFallback style={{ backgroundColor: 'blue' }}>Fallback Content</AvatarFallback>);
-    const fallback = screen.getByText('Fallback Content');
-    expect(fallback).toHaveStyle('background-color: blue');
+  // Prueba 5: Comprobación de las propiedades de accesibilidad en AvatarImage
+  test('AvatarImage accessibility properties', () => {
+    render(<Avatar><AvatarImage src="/avatar.jpg" alt="Avatar" /></Avatar>);
+    const avatarImage = screen.getByRole('img');
+    expect(avatarImage).toHaveAttribute('src', '/avatar.jpg');
+    expect(avatarImage).toHaveAttribute('alt', 'Avatar');
+  });
+
+  // Prueba 6: Comprobación de las propiedades de accesibilidad en AvatarFallback
+  test('AvatarFallback accessibility properties', () => {
+    render(<Avatar><AvatarFallback /></Avatar>);
+    const avatarFallback = screen.getByTestId('avatar-fallback');
+    expect(avatarFallback).toHaveAttribute('aria-busy', 'true');
+    expect(avatarFallback).toHaveAttribute('aria-live', 'polite');
+  });
+
+  // Prueba 7: AvatarImage y AvatarFallback se muestran correctamente juntos
+  test('Avatar renders AvatarImage and AvatarFallback correctly', () => {
+    render(<Avatar><AvatarImage src="/avatar.jpg" alt="Avatar" /><AvatarFallback /></Avatar>);
+    const avatarImage = screen.getByRole('img');
+    const avatarFallback = screen.getByTestId('avatar-fallback');
+    expect(avatarImage).toBeInTheDocument();
+    expect(avatarFallback).toBeInTheDocument();
+  });
+
+  // Prueba 8: Verificación de las clases personalizadas en AvatarImage
+  test('AvatarImage renders with custom class', () => {
+    render(<Avatar><AvatarImage src="/avatar.jpg" alt="Avatar" className="custom-avatar-image" /></Avatar>);
+    const avatarImage = screen.getByRole('img');
+    expect(avatarImage).toHaveClass('custom-avatar-image');
+  });
+
+  // Prueba 9: Verificación de las clases personalizadas en AvatarFallback
+  test('AvatarFallback renders with custom class', () => {
+    render(<Avatar><AvatarFallback className="custom-avatar-fallback" /></Avatar>);
+    const avatarFallback = screen.getByTestId('avatar-fallback');
+    expect(avatarFallback).toHaveClass('custom-avatar-fallback');
+  });
+
+  // Prueba 10: AvatarFallback se renderiza correctamente si no se proporciona AvatarImage
+  test('AvatarFallback renders when AvatarImage is not provided', () => {
+    render(<Avatar><AvatarFallback /></Avatar>);
+    const avatarFallback = screen.getByTestId('avatar-fallback');
+    expect(avatarFallback).toBeInTheDocument();
   });
 });
