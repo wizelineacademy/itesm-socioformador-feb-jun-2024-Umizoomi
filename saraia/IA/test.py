@@ -111,6 +111,8 @@ def check_feedback_table(user_id, team_id):
         print(f"Error in check_feedback_table: {e}")
         return None
 
+
+
 def thread_process(user_id, user_thread_id, message, team_id):
     try:
         print("Enter thread process")
@@ -137,6 +139,15 @@ def thread_process(user_id, user_thread_id, message, team_id):
             add_new_ai_message(response, user_id, team_id)
             metrics = {}
 
+            def extract_feedback(feedback_type):
+                pattern = re.compile(r"\*\*(.*?)\*\*.*?\((\d+)\)", re.DOTALL)
+                matches = pattern.findall(response)
+                for match in matches:
+                    metric_name = match[0].strip().lower().replace(" ", "_")
+                    score = int(match[1])
+                    metrics[metric_name] = [score]
+                    
+
             if "Self-Evaluation" in response:
                 pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
                 matches = pattern.findall(response)
@@ -154,86 +165,119 @@ def thread_process(user_id, user_thread_id, message, team_id):
                 print("Adrian feedback added")
 
             if "Adrian's feedback" in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
+                # Define the regular expression pattern to match the scores in parentheses
+                pattern = r'\(\d+\)'
 
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
+                # Use re.findall to find all matches of the pattern
+                scores = re.findall(pattern, response)
 
-                # add_feedback_to_profile(3, metrics)
-                update_profile_in_db(1, metrics)
+                # Extract only the numbers from the matched strings
+                scores = [int(score[1:-1]) for score in scores]
+
+                print(scores)
+                print("Performance: ",scores[0])
+                print("Well_being: ",scores[1])
+                print("Flow: ",scores[2])
+                print("Communication: ",scores[3])
+                print("Activity: ",scores[4])
+                print("Collaboration: ",scores[5])
+                print("Efficiency: ",scores[6])
+                print("Satisfaction: ",scores[7])
+                update_profile_in_db('e70826d5-eceb-4eb7-b48e-1fbca900128a', metrics)
                 print("Adrian feedback added")
             
 
             if "Carlos's feedback" in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
+                # Define the regular expression pattern to match the scores in parentheses
+                pattern = r'\(\d+\)'
 
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
+                # Use re.findall to find all matches of the pattern
+                scores = re.findall(pattern, response)
+
+                # Extract only the numbers from the matched strings
+                scores = [int(score[1:-1]) for score in scores]
+
+                print(scores)
+                print("Performance: ",scores[0])
+                print("Well_being: ",scores[1])
+                print("Flow: ",scores[2])
+                print("Communication: ",scores[3])
+                print("Activity: ",scores[4])
+                print("Collaboration: ",scores[5])
+                print("Efficiency: ",scores[6])
+                print("Satisfaction: ",scores[7])
 
                 update_profile_in_db(3, metrics)
                 print("Carlos feedback added")
 
 
 
-            if "Oscar's feedback" in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
+            if "Oscar's Feedback" in response:
+                print("Oscar feedback")
+                # Define the regular expression pattern to match the scores in parentheses
+                pattern = r'\(\d+\)'
 
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
+                # Use re.findall to find all matches of the pattern
+                scores = re.findall(pattern, response)
 
-                # add_feedback_to_profile(15, metrics)
-                update_profile_in_db(15, metrics)
+                # Extract only the numbers from the matched strings
+                scores = [int(score[1:-1]) for score in scores]
+
+                print(scores)
+                print("Performance: ",scores[0])
+                print("Well_being: ",scores[1])
+                print("Flow: ",scores[2])
+                print("Communication: ",scores[3])
+                print("Activity: ",scores[4])
+                print("Collaboration: ",scores[5])
+                print("Efficiency: ",scores[6])
+                print("Satisfaction: ",scores[7])
+                update_profile_in_db('6d3e0c51-3e22-421a-a9b7-b1e81d6c53d7', scores)
                 print("Oscar feedback added")
 
 
             if "Luis' feedback" in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
+                # Define the regular expression pattern to match the scores in parentheses
+                pattern = r'\(\d+\)'
 
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
+                # Use re.findall to find all matches of the pattern
+                scores = re.findall(pattern, response)
 
-                # add_feedback_to_profile(5, metrics)
+                # Extract only the numbers from the matched strings
+                scores = [int(score[1:-1]) for score in scores]
+
+                print(scores)
+                print("Performance: ",scores[0])
+                print("Well_being: ",scores[1])
+                print("Flow: ",scores[2])
+                print("Communication: ",scores[3])
+                print("Activity: ",scores[4])
+                print("Collaboration: ",scores[5])
+                print("Efficiency: ",scores[6])
+                print("Satisfaction: ",scores[7])
                 update_profile_in_db(5, metrics)
                 print("Luis feedback added")
 
 
             if "Kraken's feedback" in response:
-                pattern = re.compile(r"\*{1,2}(.*?)\*{1,2}.*?\((\d+)-(\d+)\)", re.DOTALL)
-                matches = pattern.findall(response)
-                for match in matches:
-                    metric_name = match[0].strip().lower().replace(" ", "_")
-                    low, high = int(match[1]), int(match[2])
-                    average = (low + high) / 2
-                    metrics[metric_name] = average
+                # Define the regular expression pattern to match the scores in parentheses
+                pattern = r'\(\d+\)'
 
-                for metric, value in metrics.items():
-                    print(f"{metric}: {value}")
+                # Use re.findall to find all matches of the pattern
+                scores = re.findall(pattern, response)
 
-                # add_feedback_to_profile(16, metrics)
+                # Extract only the numbers from the matched strings
+                scores = [int(score[1:-1]) for score in scores]
+
+                print(scores)
+                print("Performance: ",scores[0])
+                print("Well_being: ",scores[1])
+                print("Flow: ",scores[2])
+                print("Communication: ",scores[3])
+                print("Activity: ",scores[4])
+                print("Collaboration: ",scores[5])
+                print("Efficiency: ",scores[6])
+                print("Satisfaction: ",scores[7])
                 update_profile_in_db('8aeb8834-04d4-4095-a0bf-56041e4093f7', metrics)
                 print("Kraken feedback added")
 
@@ -258,14 +302,14 @@ def update_profile_in_db(user_id, profile):
         WHERE id_user = %s;
         """
         
-        performance = profile.get('Performance', [0])[0]
-        well_being = profile.get('well_being', [0])[0]
-        flow = profile.get('flow', [0])[0]
-        communication = profile.get('communication', [0])[0]
-        activity = profile.get('activity', [0])[0]
-        collaboration = profile.get('collaboration', [0])[0]
-        efficiency = profile.get('efficiency', [0])[0]
-        satisfaction = profile.get('satisfaction', [0])[0]
+        performance = profile[0]
+        well_being = profile[1]
+        flow = profile[2]
+        communication = profile[3]
+        activity = profile[4]
+        collaboration = profile[5]
+        efficiency = profile[6]
+        satisfaction = profile[7]
 
         print(cursor.mogrify(update_query, (
             performance, well_being, flow, communication, activity, collaboration, efficiency, satisfaction, user_id
