@@ -1,5 +1,6 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import '@testing-library/jest-dom/extend-expect';
 import AddNewMember from '../components/AddNewMember';
 
 // Mock fetch globally
