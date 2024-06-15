@@ -7,7 +7,7 @@ https://www.figma.com/design/V4mjWmyExsXhlcPIdxi8Nd/Sara-Ai?node-id=0-1&t=tg86xQ
 https://docs.google.com/spreadsheets/d/1WrnAVYg8cLDrjqryOuNLqXtPjyDmIbSpsER1ifvQdMg/edit?usp=sharing
 
 ## Solución implantada
-https://saraia-f5it7dt5y-chalkys-projects.vercel.app/
+https://saraia-chalkymuffin-chalkys-projects.vercel.app/
 
 # Plan de proyecto
 ## Documento de planeación:
