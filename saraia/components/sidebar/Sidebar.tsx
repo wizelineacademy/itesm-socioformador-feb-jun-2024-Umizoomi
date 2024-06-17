@@ -84,13 +84,6 @@ const Sidebar = () => {
         showPlaceholder={!toggleCollapse}
         placeholderText="Teams"
         />
-        
-        <NavigationButton
-        icon={VscFeedback}
-        route="/feedback"
-        showPlaceholder={!toggleCollapse}
-        placeholderText="Feedback"
-        />
       </div>
 
       <div className="flex items-center justify-between relative">
