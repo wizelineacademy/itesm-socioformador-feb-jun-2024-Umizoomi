@@ -9,9 +9,16 @@ export default function Home() {
         <div className="flex justify-center mb-6">
           <img src="/LogoSara.svg" alt="Logo" className="h-40 w-40" />
         </div>
-        <Button asChild>
-          <Link href="/api/auth/signin">¡Inicia aqui!</Link>
-        </Button>
+        <div>
+          <Button asChild className="mb-6">
+            <Link href="/api/auth/signin">¡Start here!</Link>
+          </Button>
+        </div>
+        <div>
+          <Button asChild>
+            <Link href="/dashboard">Go to Dashboard</Link>
+          </Button>
+        </div>
       </div>
     </div>
   );
