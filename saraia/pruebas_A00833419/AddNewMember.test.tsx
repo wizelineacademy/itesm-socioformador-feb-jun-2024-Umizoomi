@@ -19,10 +19,10 @@ describe('AddNewMember', () => {
   test('fetches and displays users', async () => {
     const mockUsers = [
       {
-        id_user: '1',
-        name: 'John Doe',
-        job_title: 'Developer',
-        team_name: 'Team A',
+        id_user: '7',
+        name: 'Default',
+        job_title: '1',
+        team_name: 'Kraken',
         overall_average: 90,
       },
     ];
@@ -38,7 +38,7 @@ describe('AddNewMember', () => {
 
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
 
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('Default')).toBeInTheDocument();
   });
 
   test('handles fetch failure gracefully', async () => {
@@ -56,10 +56,10 @@ describe('AddNewMember', () => {
   test('adds user to team on button click', async () => {
     const mockUsers = [
       {
-        id_user: '1',
-        name: 'John Doe',
-        job_title: 'Developer',
-        team_name: 'Team A',
+        id_user: '7',
+        name: 'Default',
+        job_title: '1',
+        team_name: 'Kraken',
         overall_average: 90,
       },
     ];
@@ -80,7 +80,7 @@ describe('AddNewMember', () => {
 
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
 
-    userEvent.click(screen.getByText('John Doe'));
+    userEvent.click(screen.getByText('Default'));
 
     userEvent.click(screen.getByText('Add to Team'));
 
