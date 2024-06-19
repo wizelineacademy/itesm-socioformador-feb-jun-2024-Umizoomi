@@ -383,7 +383,7 @@ def get_ai_response():
     if not user_id or not team_id or not message:
         return jsonify({"error": "Missing user_id, team_id, or message"})
 
-    chatbot = Sara(int(team_id), (user_id))
+    chatbot = Sara((team_id), (user_id))
     add_new_user_message(message, user_id, team_id)
     response = chatbot.run(message)
     return jsonify({"response": response})

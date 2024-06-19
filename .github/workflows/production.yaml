@@ -29,8 +29,12 @@ jobs:
         run: npm install
         working-directory: ./saraia
 
-      #- name: Run tests
-      #  run: npm test  
+      
+
+      - name: Run tests
+        run: npm test
+        working-directory: ./saraia./testing_A00833278
+
 
 
 
