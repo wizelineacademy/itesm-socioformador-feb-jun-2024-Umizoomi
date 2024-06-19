@@ -3,6 +3,9 @@
 ## Instrucciones para acceder
 Escriben algun correo que quieran usar para la cuenta, van a su correo para confirmar su sign in y agregan su nombre de usuario
 
+## Administración
+https://docs.google.com/document/d/1qLgAVNUPeAkmNENKviO8tiRlwKyWCzI-Zye5Lu_bqLA/edit?usp=sharing
+
 ## Documento de Diseño
 https://www.figma.com/design/V4mjWmyExsXhlcPIdxi8Nd/Sara-Ai?node-id=0-1&t=tg86xQjela4Bl2lx-1
 
