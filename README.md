@@ -23,6 +23,8 @@ https://docs.google.com/document/d/1evYueqYATdZVYQJAF1zUVGQDwJbhn84mjiZ8x1MWb8k/
 https://docs.google.com/document/d/16fmtjT7r0s6SaTVLlZoNb3ncwJHR50qOMIJzWIUKKJY/edit?usp=sharing
 
 ## Arquitecura Computacional:
+![diagrama](DiagramArq.png)
+![diagrama](DiagramaArquitectura.png)
 
 
 ## Lecciones aprendidas:
