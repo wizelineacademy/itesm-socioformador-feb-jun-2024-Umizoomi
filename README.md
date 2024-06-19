@@ -22,6 +22,9 @@ https://docs.google.com/document/d/1evYueqYATdZVYQJAF1zUVGQDwJbhn84mjiZ8x1MWb8k/
 ## Documento de requerimientos:
 https://docs.google.com/document/d/16fmtjT7r0s6SaTVLlZoNb3ncwJHR50qOMIJzWIUKKJY/edit?usp=sharing
 
+## Arquitecura Computacional:
+
+
 ## Lecciones aprendidas:
 https://docs.google.com/spreadsheets/d/1kHas2vVPhU55vf4TkRnLlMtgflRY6AdcK0YvVGY7zeQ/edit?usp=sharing
 
